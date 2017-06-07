@@ -940,7 +940,7 @@
                     // newRow.appendChild(newCell);
                     innerHTML += "<tr><td>" + snapshot.child('id').val() + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr>";
                     
-                    document.getElementById('transactions').innerHTML = innerHTML;
+                    document.getElementById('transactions').append(innerHTML);
                 });
                 console.log(innerHTML);
             } catch (e) {
