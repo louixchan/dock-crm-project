@@ -399,6 +399,13 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="tblClients">
+                                <thead>
+                                    <tr>
+                                        <th>Client ID</th>
+                                        <th>Client Name</th>
+                                        <th>Payment Mode</th>
+                                    </tr>
+                                </thead>
                             </table>
                         </div>
                         <!-- /.panel-body -->
@@ -436,15 +443,12 @@
             var clients = firebase.database().ref('/clients');
             var innerHTML = "";
             clients.on('value', function(snapshot) {
-                
-                var data = JSON.stringify(snapshot.val());
+                var i = 0
+                snapshot.forEach(function(child){
+                    $("#tblClients").row.add({"id": child.key, "name": child.child('name').val(), "mode": child.child('mode').val()}).draw();
+                });
 
                 $('#tblClients').DataTable({
-                    data: JSON.stringify(snapshot.val()),
-                    columns: [
-                        { data: 'name'},
-                        { data: 'mode'}
-                        ],
                     responsive: true
                 });
             });
