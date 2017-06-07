@@ -444,10 +444,10 @@
                 columns: [{data: "id"}, {data: "name"}, {data: "mode"}],
                 responsive: true
             });
-            var clients = firebase.database().ref('/clients');
+            var clients = firebase.database().ref('/transactions');
             clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('name').val(), "mode": child.child('mode').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "mode": child.child('price').val()}).draw();
                 });
 
             });
