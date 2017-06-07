@@ -908,24 +908,24 @@
             try {
                 let app = firebase.app();
                 let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+
+                var innerHTML = "<tr>testing tesing</tr>";
+                var transactions = firebase.database().ref('/transactions');
+                transactions.on('value', function(snapshot) {
+                    snapshot.forEach(function(child){
+                        innerHTML += "<tr>";
+                        innerHTML += "<td>" + child.child('id').value + "</td>";
+                        innerHTML += "<td>" + child.child('date').value + "</td>";
+                        innerHTML += "<td>" + child.child('client').value + "</td>";
+                        innerHTML += "<td>" + child.child('price').value + "</td>";
+                        innerHTML += "</tr>";
+                    });
+                    document.getElementById('transactions').innerHTML = innerHTML;
+                    console.log(innerHTML);
+                });
             } catch (e) {
                 console.error(e);
             }
-
-            var innerHTML = "<tr>testing tesing</tr>";
-            var transactions = firebase.database().ref('/transactions');
-            transactions.on('value', function(snapshot) {
-                snapshot.forEach(function(child){
-                    innerHTML += "<tr>";
-                    innerHTML += "<td>" + child.child('id').value + "</td>";
-                    innerHTML += "<td>" + child.child('date').value + "</td>";
-                    innerHTML += "<td>" + child.child('client').value + "</td>";
-                    innerHTML += "<td>" + child.child('price').value + "</td>";
-                    innerHTML += "</tr>";
-                });
-                document.getElementById('transactions').innerHTML = innerHTML;
-                console.log(innerHTML);
-            });
         });
     </script>
 
