@@ -909,43 +909,38 @@
 
                 var innerHTML = "<tr>testing tesing</tr>";
                 var transactions = firebase.database().ref('/transactions/0');
-                // transactions.on('value', function(snapshot) {
-                //     snapshot.forEach(function(child){
-                //         innerHTML += "<tr>";
-                //         innerHTML += "<td>" + child.child('id').value + "</td>";
-                //         innerHTML += "<td>" + child.child('date').value + "</td>";
-                //         innerHTML += "<td>" + child.child('client').value + "</td>";
-                //         innerHTML += "<td>" + child.child('price').value + "</td>";
-                //         innerHTML += "</tr>";
-                //     });
+                transactions.on('value', function(snapshot) {
+                    snapshot.forEach(function(child){
+                        innerHTML += "<tr>";
+                        innerHTML += "<td>" + child.child('id').value + "</td>";
+                        innerHTML += "<td>" + child.child('date').value + "</td>";
+                        innerHTML += "<td>" + child.child('client').value + "</td>";
+                        innerHTML += "<td>" + child.child('price').value + "</td>";
+                        innerHTML += "</tr>";
+                    });
 
-                //     document.getElementById('transactions').innerHTML = innerHTML;
-                //     console.log(innerHTML);
-                // });
-
-                // var tblTransaction = document.getElementById('transactions').getElementByTagName('tbody')[0];
-
-                console.log(innerHTML);
+                    $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
+                });
             } catch (e) {
                 console.error(e);
             }
 
-            firebase.database().ref('/transactions/0').once('value', function(snapshot) {
-                // var newRow = tblTransaction.insertRow(tblTransaction.rows.length);
-                // var newCell = document.createElement('td');
-                // newCell.innerHTML = snapshot.child('id').val();
-                // newRow.appendChild(newCell);
-                // newCell.innerHTML = snapshot.child('date').val();
-                // newRow.appendChild(newCell);
-                // newCell.innerHTML = snapshot.child('client').val();
-                // newRow.appendChild(newCell);
-                // newCell.innerHTML = snapshot.child('price').val();
-                // newRow.appendChild(newCell);
+            // firebase.database().ref('/transactions/0').once('value', function(snapshot) {
+            //     // var newRow = tblTransaction.insertRow(tblTransaction.rows.length);
+            //     // var newCell = document.createElement('td');
+            //     // newCell.innerHTML = snapshot.child('id').val();
+            //     // newRow.appendChild(newCell);
+            //     // newCell.innerHTML = snapshot.child('date').val();
+            //     // newRow.appendChild(newCell);
+            //     // newCell.innerHTML = snapshot.child('client').val();
+            //     // newRow.appendChild(newCell);
+            //     // newCell.innerHTML = snapshot.child('price').val();
+            //     // newRow.appendChild(newCell);
                 
-                $("#tblTransaction").append(
-                    "<tbody><tr><td>" + snapshot.child('id').val() + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr></tbody>"
-                );
-            });
+            //     $("#tblTransaction").append(
+            //         "<tbody><tr><td>" + snapshot.key + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr></tbody>"
+            //     );
+            // });
         });
     </script>
 
