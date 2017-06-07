@@ -447,7 +447,7 @@
                 var data = JSON.stringify(snapshot.val());
 
                 $('#tblClients').DataTable({
-                    data: $data,
+                    data: JSON.stringify(snapshot.val()),
                     columns: [
                         { data: 'name'},
                         { data: 'mode'}
