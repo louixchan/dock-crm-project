@@ -450,6 +450,10 @@
 
                 $('#tblClients').DataTable({
                     data: data,
+                    columns: [
+                        { data: 'name'},
+                        { data: 'mode'}
+                        ],
                     responsive: true
                 });
             });
