@@ -912,8 +912,8 @@
                 console.error(e);
             }
 
-            var innerHTML = ""
-            var transactions = firebase.database().ref('/transactions')
+            var innerHTML = "";
+            var transactions = firebase.database().ref('/transactions');
             transactions.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
                     innerHTML += "<tr>";
