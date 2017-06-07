@@ -302,6 +302,9 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
+                            <a href="transactions.html"><i class="fa fa-table fa-fw"></i> Transactions</a>
+                        </li>
+                        <li>
                             <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>
                         <li>
@@ -916,13 +919,19 @@
                 var innerHTML = "<tr>testing tesing</tr>";
                 var transactions = firebase.database().ref('/transactions');
                 transactions.on('value', function(snapshot) {
+                    var i = 0
                     snapshot.forEach(function(child){
-                        innerHTML += "<tr>";
-                        innerHTML += "<td>" + child.key + "</td>";
-                        innerHTML += "<td>" + child.child('date').val() + "</td>";
-                        innerHTML += "<td>" + child.child('client').val() + "</td>";
-                        innerHTML += "<td>" + child.child('price').val() + "</td>";
-                        innerHTML += "</tr>";
+                        if (i < 5)
+                        {
+                            innerHTML += "<tr>";
+                            innerHTML += "<td>" + child.key + "</td>";
+                            innerHTML += "<td>" + child.child('date').val() + "</td>";
+                            innerHTML += "<td>" + child.child('client').val() + "</td>";
+                            innerHTML += "<td>" + child.child('price').val() + "</td>";
+                            innerHTML += "</tr>";
+
+                            i += 1;
+                        }
                     });
 
                     $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
