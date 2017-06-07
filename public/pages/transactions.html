@@ -398,13 +398,14 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblTransaction">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblTransactions">
                                 <thead>
                                     <tr>
                                         <th>Transaction ID</th>
                                         <th>Date</th>
                                         <th>Client</th>
                                         <th>Price</th>
+                                        <th>Exported</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -443,7 +444,7 @@
         $(document).ready(function() {
             var locationsRef = firebase.database().ref('/locations');
 
-            var tbl = $('#tblTransaction').DataTable({
+            var tbl = $('#tblTransactions').DataTable({
                 columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "destination"}, {data: "price"}, {data: "exported"}],
                 responsive: true
             });
