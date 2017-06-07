@@ -907,6 +907,12 @@
                 let app = firebase.app();
                 let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
 
+                firebase.auth().signInWithEmailAndPassword("testing@gmail.com", "testing1234").catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                });
+
                 var innerHTML = "<tr>testing tesing</tr>";
                 var transactions = firebase.database().ref('/transactions');
                 transactions.on('value', function(snapshot) {
