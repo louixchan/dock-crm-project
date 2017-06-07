@@ -441,7 +441,7 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             var locationsRef = firebase.database().ref('/locations');
 
             var tbl = $('#tblTransactions').DataTable({
