@@ -443,19 +443,17 @@
             var clients = firebase.database().ref('/clients');
             var innerHTML = "";
             clients.on('value', function(snapshot) {
-                var i = 0
-                snapshot.forEach(function(child){
-                    innerHTML += "<tr>";
-                    innerHTML += "<td>" + child.key + "</td>";
-                    innerHTML += "<td>" + child.child('name').val() + "</td>";
-                    innerHTML += "<td>" + child.child('mode').val() + "</td>";
-                    innerHTML += "</tr>";
-                });
+                
+                data = JSON.stringify(snapshot.val());
 
                 $("#tblClients").append("<tbody>" + innerHTML + "</tbody>");
 
                 $('#tblClients').DataTable({
                     serverSide: true,
+                    ajax:{
+                        "url: "data.json",
+                        "dataSrc": $data
+                    },
                     responsive: true
                 });
             });
