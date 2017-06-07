@@ -402,8 +402,10 @@
                                 <thead>
                                     <tr>
                                         <th>Client ID</th>
-                                        <th>Client Name</th>
-                                        <th>Payment Mode</th>
+                                        <th>Client</th>
+                                        <th>Price</th>
+                                        <th>Destination</th>
+                                        <th>Exported</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -441,13 +443,13 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "destination"}],
+                columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "destination"}, {data: 'exported'}],
                 responsive: true
             });
             var clients = firebase.database().ref('/transactions');
             clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": child.child('destination').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": child.child('destination').val(), "exported": child.child('exported').val()}).draw();
                 });
 
             });
