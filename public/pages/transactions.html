@@ -441,13 +441,13 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "mode"}],
+                columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "destination"}],
                 responsive: true
             });
             var clients = firebase.database().ref('/transactions');
             clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "mode": child.child('price').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": child.child('destination').val()}).draw();
                 });
 
             });
