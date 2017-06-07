@@ -958,7 +958,7 @@
                 let app = firebase.app();
                 //let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
 
-                firebase.database().ref('transactions').on('value', function(snapshot) {
+                firebase.database().ref('/transactions/0/client').on('value', function(snapshot) {
                     console.log(snapshot.val());
                 });
             } catch (e) {
