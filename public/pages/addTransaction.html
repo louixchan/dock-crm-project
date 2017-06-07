@@ -407,7 +407,16 @@
                                             <label>Select Client</label>
                                             <select class="form-control" id="lstClient">
                                             </select>
+                                            <label>Select Recipient</label>
+                                            <select class="form-control" id="lstRecipient">
+                                            </select>
                                             <p class="help-block">Click <a href="#">here</a> to add new client.</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Select Destination</label>
+                                            <select class="form-control" id="lstDestination">
+                                            </select>
+                                            <p class="help-block">Click <a href="#">here</a> to add new destination.</p>
                                         </div>
                                         <button type="submit" class="btn btn-default">Submit Button</button>
                                         <button type="reset" class="btn btn-default">Reset Button</button>
@@ -446,10 +455,18 @@
 
 <script type="text/javascript">
     $("document").ready(function(){
-        var transactions = firebase.database().ref('/clients');
-        transactions.on('value', function(snapshot) {
+        var clients = firebase.database().ref('/clients');
+        clients.on('value', function(snapshot) {
             snapshot.forEach(function(child){
                 $("#lstClient").append("<option>" + child.child('name').val() + "</option>");
+                $("#lstRecipient").append("<option>" + child.child('name').val() + "</option>");
+            });
+        });
+
+        var destinations = firebase.database().ref('/locations');
+        destinations.on('value', function(snapshot) {
+            snapshot.forEach(function(child){
+                $("#lstDestination").append("<option>" + child.val() + "</option>");
             });
         });
     });
