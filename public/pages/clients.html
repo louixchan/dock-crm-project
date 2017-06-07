@@ -398,13 +398,12 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblTransaction">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblClients">
                                 <thead>
                                     <tr>
-                                        <th>Transaction ID</th>
-                                        <th>Date</th>
-                                        <th>Client</th>
-                                        <th>Price</th>
+                                        <th>Client ID</th>
+                                        <th>Client Name</th>
+                                        <th>Payment Mode</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -441,23 +440,22 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
-            var transactions = firebase.database().ref('/transactions');
+            var clients = firebase.database().ref('/clients');
             var innerHTML = "";
-            transactions.on('value', function(snapshot) {
+            clients.on('value', function(snapshot) {
                 var i = 0
                 snapshot.forEach(function(child){
                     innerHTML += "<tr>";
                     innerHTML += "<td>" + child.key + "</td>";
-                    innerHTML += "<td>" + child.child('date').val() + "</td>";
-                    innerHTML += "<td>" + child.child('client').val() + "</td>";
-                    innerHTML += "<td>" + child.child('price').val() + "</td>";
+                    innerHTML += "<td>" + child.child('name').val() + "</td>";
+                    innerHTML += "<td>" + child.child('mode').val() + "</td>";
                     innerHTML += "</tr>";
                 });
 
-                $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
+                $("#tblClients").append("<tbody>" + innerHTML + "</tbody>");
             });
 
-            $('#tblTransaction').DataTable({
+            $('#tblClients').DataTable({
                 responsive: true
             });
         });
