@@ -396,12 +396,13 @@
                                     <form role="form">
                                         <div class="form-group">
                                             <label>ID</label>
-                                            <input class="form-control" id="txtId">
+                                            <input type="number" class="form-control" id="txtId">
                                             <p class="help-block">Enter transaction id here.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Text Input with Placeholder</label>
-                                            <input class="form-control" placeholder="Enter text">
+                                            <label>Date</label>
+                                            <input type="date" class="form-control" id="txtId">
+                                            <p class="help-block">Select the date of transaction.</p>
                                         </div>
                                         <div class="form-group">
                                             <label>Select Client</label>
@@ -461,15 +462,15 @@
         var clients = firebase.database().ref('/clients');
         clients.on('value', function(snapshot) {
             snapshot.forEach(function(child){
-                $("#lstClient").append("<option>" + child.child('name').val() + "</option>");
-                $("#lstRecipient").append("<option>" + child.child('name').val() + "</option>");
+                $("#lstClient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                $("#lstRecipient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
             });
         });
 
         var destinations = firebase.database().ref('/locations');
         destinations.on('value', function(snapshot) {
             snapshot.forEach(function(child){
-                $("#lstDestination").append("<option>" + child.val() + "</option>");
+                $("#lstDestination").append("<option value='" + child.key + "'>" + child.val() + "</option>");
             });
         });
     });
