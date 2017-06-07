@@ -447,7 +447,6 @@
             var clients = firebase.database().ref('/clients');
             var innerHTML = "";
             clients.on('value', function(snapshot) {
-                var i = 0
                 snapshot.forEach(function(child){
                     tbl.row.add({"id": child.key, "name": child.child('name').val(), "mode": child.child('mode').val()}).draw();
                 });

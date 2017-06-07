@@ -450,9 +450,9 @@
             var transactions = firebase.database().ref('/transactions');
             var innerHTML = "";
             transactions.on('value', function(snapshot) {
-                var i = 0
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "date": child.child('date').val(), "client": child.child('client').val(), "destination": locationsRef.child(child.child('destination').val()), "price": child.child('price').val(), "exported": child.child('exported').val()}).draw();
+                    var location = locationsRef.child(child.child('destination').val());
+                    tbl.row.add({"id": child.key, "date": child.child('date').val(), "client": child.child('client').val(), "destination": location, "price": child.child('price').val(), "exported": child.child('exported').val()}).draw();
                 });
 
             });
