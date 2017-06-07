@@ -441,24 +441,20 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
+            var locationsRef = firebase.database().ref('/locations');
+
+            var tbl = $('#tblTransaction').DataTable({
+                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "destination"}, {data: "price"}, {data: "exported"}],
+                responsive: true
+            });
             var transactions = firebase.database().ref('/transactions');
             var innerHTML = "";
             transactions.on('value', function(snapshot) {
                 var i = 0
                 snapshot.forEach(function(child){
-                    innerHTML += "<tr>";
-                    innerHTML += "<td>" + child.key + "</td>";
-                    innerHTML += "<td>" + child.child('date').val() + "</td>";
-                    innerHTML += "<td>" + child.child('client').val() + "</td>";
-                    innerHTML += "<td>" + child.child('price').val() + "</td>";
-                    innerHTML += "</tr>";
+                    tbl.row.add({"id": child.key, "date": child.child('date').val(), "client": child.child('client').val(), "destination": locationsRef.child(child.child('destination').val()), "price": child.child('price').val(), "exported": child.child('exported').val()}).draw();
                 });
 
-                $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
-            });
-
-            $('#tblTransaction').DataTable({
-                responsive: true
             });
         });
     </script>
