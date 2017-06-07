@@ -539,7 +539,7 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-bordered table-hover table-striped" id="tblTransaction">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -548,8 +548,6 @@
                                                     <th>Amount</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="transactions">
-                                            </tbody>
                                         </table>
                                     </div>
                                     <!-- /.table-responsive -->
@@ -940,7 +938,7 @@
                     // newRow.appendChild(newCell);
                     innerHTML += "<tr><td>" + snapshot.child('id').val() + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr>";
                     
-                    document.getElementById('transactions').append(innerHTML);
+                    $('#tblTransaction').append(innerHTML);
                 });
                 console.log(innerHTML);
             } catch (e) {
