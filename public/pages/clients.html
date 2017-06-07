@@ -454,11 +454,6 @@
 
                 $("#tblClients").append("<tbody>" + innerHTML + "</tbody>");
 
-                var script = document.createElement('script');
-                script.type = 'text/javaScript';
-                script.src = '../vendor/datatables/js/jquery.dataTables.min.js';
-                document.getElementsByTagName('head')[0].appendChild(script);
-
                 $('#tblClients').DataTable({
                     serverSide: true,
                     responsive: true
