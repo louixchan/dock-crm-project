@@ -444,7 +444,7 @@
             var innerHTML = "";
             clients.on('value', function(snapshot) {
                 
-                data = JSON.stringify(snapshot.val());
+                var data = JSON.stringify(snapshot.val());
 
                 $("#tblClients").append("<tbody>" + innerHTML + "</tbody>");
 
