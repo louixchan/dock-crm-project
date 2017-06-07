@@ -913,9 +913,9 @@
                     snapshot.forEach(function(child){
                         innerHTML += "<tr>";
                         innerHTML += "<td>" + child.key + "</td>";
-                        innerHTML += "<td>" + child.child('date').value + "</td>";
-                        innerHTML += "<td>" + child.child('client').value + "</td>";
-                        innerHTML += "<td>" + child.child('price').value + "</td>";
+                        innerHTML += "<td>" + child.child('date').val() + "</td>";
+                        innerHTML += "<td>" + child.child('client').val() + "</td>";
+                        innerHTML += "<td>" + child.child('price').val() + "</td>";
                         innerHTML += "</tr>";
                     });
 
