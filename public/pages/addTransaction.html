@@ -417,6 +417,7 @@
                                         <div class="form-group">
                                             <label>Select Destination</label>
                                             <select class="form-control" id="lstDestination">
+                                                <option></option>
                                             </select>
                                             <p class="help-block">Click <a href="#">here</a> to add new destination.</p>
                                         </div>
@@ -474,21 +475,27 @@
     });
 
     $("#btnSubmit").click(function(){
-        if ($("#txtId").val() == "")
+        var error = false;
+
+        if (!error && $("#txtId").val() == "")
         {
             alert("Please input a valid transaction id.");
+            error = true;
         }
-        if ($("#lstClient").val() == "")
+        if (!error && $("#lstClient").val() == "")
         {
             alert("Select a valid Client from the list please.");
+            error = true;
         }
-        if ($("#lstRecipient").val() == "")
+        if (!error && $("#lstRecipient").val() == "")
         {
             alert("Select a valid Recipient from the list please.");
+            error = true;
         }
-        if ($("#lstDestination").val() == "")
+        if (!error && $("#lstDestination").val() == "")
         {
             alert("Select a valid Destination from the list please.");
+            error = true;
         }
     });
 </script>
