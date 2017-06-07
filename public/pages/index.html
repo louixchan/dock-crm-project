@@ -927,10 +927,10 @@
 
                 transactions.on('value', function(snapshot) {
                     innerHTML += "<tr>";
-                    innerHTML += "<td>" + child.child('id').value + "</td>";
-                    innerHTML += "<td>" + child.child('date').value + "</td>";
-                    innerHTML += "<td>" + child.child('client').value + "</td>";
-                    innerHTML += "<td>" + child.child('price').value + "</td>";
+                    innerHTML += "<td>" + snapshot.child('id').value + "</td>";
+                    innerHTML += "<td>" + snapshot.child('date').value + "</td>";
+                    innerHTML += "<td>" + snapshot.child('client').value + "</td>";
+                    innerHTML += "<td>" + snapshot.child('price').value + "</td>";
                     innerHTML += "</tr>";
                     
                     document.getElementById('transactions').innerHTML = innerHTML;
