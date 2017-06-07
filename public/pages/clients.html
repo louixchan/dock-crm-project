@@ -441,6 +441,7 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
+                columns: [{data: "id", data: "name", data: "mode"}],
                 responsive: true
             });
             var clients = firebase.database().ref('/clients');
