@@ -958,8 +958,7 @@
                 let app = firebase.app();
                 //let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
 
-                transactions = firebase.database().ref('/transactions');
-                transactions.on('data', snapshot => {
+                irebase.database().ref('/transactions').on('data', snapshot => {
                     console.log(snapshot.value());
                 });
             } catch (e) {
