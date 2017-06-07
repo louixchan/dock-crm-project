@@ -927,7 +927,7 @@
 
                 // var tblTransaction = document.getElementById('transactions').getElementByTagName('tbody')[0];
 
-                transactions.once('value', function(snapshot) {
+                firebase.database().ref('/transactions/0').once('value', function(snapshot) {
                     // var newRow = tblTransaction.insertRow(tblTransaction.rows.length);
                     // var newCell = document.createElement('td');
                     // newCell.innerHTML = snapshot.child('id').val();
