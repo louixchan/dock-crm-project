@@ -439,19 +439,15 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var locationsRef = firebase.database().ref('/locations');
-
+        $(document).ready(function() {
             var tbl = $('#tblTransactions').DataTable({
-                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "destination"}, {data: "price"}, {data: "exported"}],
+                columns: [{data: "id"}, {data: "client"}, {data: "date"}, {data: "destination"}, {data: "exported"}, , {data: "price"}],
                 responsive: true
             });
             var transactions = firebase.database().ref('/transactions');
-            var innerHTML = "";
             transactions.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    var location = locationsRef.child(child.child('destination').val());
-                    tbl.row.add({"id": child.key, "date": child.child('date').val(), "client": child.child('client').val(), "destination": location, "price": child.child('price').val(), "exported": child.child('exported').val()}).draw();
+                    tbl.row.add({"id": child.key, "client": child.child('client').val(), "date": child.child('date').val(), "destination": child.child('destination').val(), "exported": child.child('exported').val(), "price": child.child('price').val()}).draw();
                 });
 
             });
