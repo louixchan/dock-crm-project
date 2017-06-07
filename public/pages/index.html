@@ -912,7 +912,7 @@
                 console.error(e);
             }
 
-            var innerHTML = "";
+            var innerHTML = "<tr>testing tesing</tr>";
             var transactions = firebase.database().ref('/transactions');
             transactions.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
