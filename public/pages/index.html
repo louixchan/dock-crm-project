@@ -908,11 +908,11 @@
                 let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
 
                 var innerHTML = "<tr>testing tesing</tr>";
-                var transactions = firebase.database().ref('/transactions/0');
+                var transactions = firebase.database().ref('/transactions');
                 transactions.on('value', function(snapshot) {
                     snapshot.forEach(function(child){
                         innerHTML += "<tr>";
-                        innerHTML += "<td>" + child.child('id').value + "</td>";
+                        innerHTML += "<td>" + child.key + "</td>";
                         innerHTML += "<td>" + child.child('date').value + "</td>";
                         innerHTML += "<td>" + child.child('client').value + "</td>";
                         innerHTML += "<td>" + child.child('price').value + "</td>";
