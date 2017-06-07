@@ -936,9 +936,10 @@
                     // newRow.appendChild(newCell);
                     // newCell.innerHTML = snapshot.child('price').val();
                     // newRow.appendChild(newCell);
-                    innerHTML += "<tr><td>" + snapshot.child('id').val() + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr>";
                     
-                    $('#tblTransaction').append(innerHTML);
+                    $("#tblTransaction").append(
+                        "<tr><td>" + snapshot.child('id').val() + "</td><td>" + snapshot.child('date').val() + "</td><td>" + snapshot.child('client').val() + "</td><td>" + snapshot.child('price').val() + "</td></tr>"
+                    );
                 });
                 console.log(innerHTML);
             } catch (e) {
