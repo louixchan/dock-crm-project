@@ -917,10 +917,10 @@
             transactions.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
                     innerHTML += "<tr>";
-                    innerHTML += "<td>" + child.ref('id').val() + "</td>";
-                    innerHTML += "<td>" + child.ref('date').val() + "</td>";
-                    innerHTML += "<td>" + child.ref('client').val() + "</td>";
-                    innerHTML += "<td>" + child.ref('price').val() + "</td>";
+                    innerHTML += "<td>" + child.child('id').val() + "</td>";
+                    innerHTML += "<td>" + child.child('date').val() + "</td>";
+                    innerHTML += "<td>" + child.child('client').val() + "</td>";
+                    innerHTML += "<td>" + child.child('price').val() + "</td>";
                     innerHTML += "</tr>";
                 });
                 document.getElementById('testing').innerHTML = innerHTML;
