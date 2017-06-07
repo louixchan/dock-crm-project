@@ -398,7 +398,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblTransactions">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblClients">
                                 <thead>
                                     <tr>
                                         <th>Client ID</th>
@@ -440,14 +440,14 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
-            var tbl = $('#tblTransactions').DataTable({
-                columns: [{data: "id"}, {data: "client"}, {data: "date"}, {data: "destination"}, {data: "exported"}, , {data: "price"}],
+            var tbl = $('#tblClients').DataTable({
+                columns: [{data: "id"}, {data: "name"}, {data: "mode"}],
                 responsive: true
             });
-            var transactions = firebase.database().ref('/transactions');
-            transactions.on('value', function(snapshot) {
+            var clients = firebase.database().ref('/clients');
+            clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "client": child.child('client').val(), "date": child.child('date').val(), "destination": child.child('destination').val(), "exported": child.child('exported').val(), "price": child.child('price').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('name').val(), "mode": child.child('mode').val()}).draw();
                 });
 
             });
