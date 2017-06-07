@@ -952,13 +952,13 @@
             try {
                 let app = firebase.app();
                 //let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-
-                firebase.database().ref('/transactions/0/client').on('value', function(snapshot) {
-                    document.getElementById('testing').innerHTML = snapshot.val();
-                });
             } catch (e) {
                 console.error(e);
             }
+
+            firebase.database().ref('/transactions/0/client').on('value', function(snapshot) {
+                document.getElementById('testing').innerHTML = snapshot.val();
+            });
         });
     </script>
 
