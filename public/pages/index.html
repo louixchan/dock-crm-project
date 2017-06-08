@@ -226,7 +226,7 @@
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Clients
@@ -256,37 +256,7 @@
                     </div>
                 </div>
                 <!-- /.col-lg-4 -->
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Clients
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="addTransaction.html">Add new transaction</a>
-                                        </li>
-                                        <li><a href="transactions.html">All Transactions</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="row">
-                                <div id="chtTransactions"></div>
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
-                <!-- /.col-lg-4 -->
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Clients
@@ -385,7 +355,7 @@
                             });
                             $("#tblTransaction").append('<tbody>' + innerHTML + '</tbody>');
 
-                            $("#transactionCount").innerHTML = snapshot.numChildren();
+                            $("#transactionCount")[0].innerHTML = snapshot.numChildren();
                         });
                     });
                 });
@@ -422,11 +392,12 @@
                         clients.push(temp);
                     });
 
-                    $("#clientCount").innerHTML = snapshot.numChildren();
+                    $("#clientCount")[0].innerHTML = snapshot.numChildren();
 
                     new Morris.Donut({
                         element: "chtClients",
-                        data: clients
+                        data: clients,
+                        formatter: function (y, data) { return '$' + y }
                     });
                 });
 
@@ -440,11 +411,13 @@
                         locations.push(temp);
                     });
 
-                    $("#locationCount").innerHTML = snapshot.numChildren();
+                    $("#locationCount")[0].innerHTML = snapshot.numChildren();
 
                     new Morris.Donut({
                         element: "chtLocations",
-                        data: locations
+                        data: locations,
+                        formatter: function (y, data) { return '$' + y },
+                        colors: #00FF00
                     });
                 });
             } catch (e) {
