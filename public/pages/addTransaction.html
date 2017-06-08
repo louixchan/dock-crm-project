@@ -427,7 +427,7 @@
                                             <input type="number" class="form-control" id="txtId">
                                             <p class="help-block">Enter price here.</p>
                                         </div>
-                                        <button type="submit" class="btn btn-default" id="btnSubmit" onclick='addTransaction'>Submit Button</button>
+                                        <button type="submit" class="btn btn-default" id="btnSubmit">Submit Button</button>
                                         <button type="reset" class="btn btn-default">Reset Button</button>
                                     </form>
                                 </div>
@@ -480,7 +480,7 @@
         });
     });
 
-    function addTransaction(){
+    $("#btnSubmit").click(function(){
         var error = false;
 
         if (!error && $("#txtId").val() == "")
@@ -524,7 +524,7 @@
                 }
             })
         }
-    };
+    });
 </script>
 
 </html>
