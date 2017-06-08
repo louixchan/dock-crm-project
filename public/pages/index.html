@@ -429,7 +429,7 @@
                     });
                 });
 
-                firebase.database().ref('/clients').once('value').then(function(snapshot){
+                firebase.database().ref('/locations').once('value').then(function(snapshot){
                     var locations = [];
                     var temp = {};
                     snapshot.forEach(function(child){
@@ -442,7 +442,7 @@
                     $("#locationCount").innerHTML = snapshot.numChildren();
 
                     new Morris.Donut({
-                        element: "chtClients",
+                        element: "chtLocations",
                         data: locations
                     });
                 });
