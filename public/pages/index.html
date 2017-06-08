@@ -79,13 +79,13 @@
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 主頁</a>
                         </li>
                         <li>
-                            <a href="transactions.html"><i class="fa fa-table fa-fw"></i> 客戶</a>
+                            <a href="clients.html"><i class="fa fa-table fa-fw"></i> 客戶</a>
                         </li>
                         <li>
                             <a href="transactions.html"><i class="fa fa-table fa-fw"></i> 帳單</a>
                         </li>
                         <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> 地點</a>
+                            <a href="locations.html"><i class="fa fa-table fa-fw"></i> 地點</a>
                         </li>
                     </ul>
                 </div>
@@ -227,7 +227,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Date</th>
-                                                <th>Time</th>
+                                                <th>Client</th>
+                                                <th>Recipient</th>
+                                                <th>Destination</th>
                                                 <th>Amount</th>
                                             </tr>
                                         </thead>
@@ -296,18 +298,24 @@
                 var transactions = firebase.database().ref('/transactions');
                 transactions.on('value', function(snapshot) {
                     var i = 0
-                    snapshot.forEach(function(child){
-                        if (i < 5)
-                        {
-                            innerHTML += "<tr>";
-                            innerHTML += "<td>" + child.key + "</td>";
-                            innerHTML += "<td>" + child.child('date').val() + "</td>";
-                            innerHTML += "<td>" + child.child('client').val() + "</td>";
-                            innerHTML += "<td>" + child.child('price').val() + "</td>";
-                            innerHTML += "</tr>";
+                    firebase.database().ref('/clients').once('value').then(function(clientSnapshot){
+                        firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
+                            snapshot.forEach(function(child){
+                                if (i < 5)
+                                {
+                                    innerHTML += "<tr>";
+                                    innerHTML += "<td>" + child.key + "</td>";
+                                    innerHTML += "<td>" + child.child('date').val() + "</td>";
+                                    innerHTML += "<td>" + clientSnapshot.child(child.child('client').val()).child('name').val() + "</td>";
+                                    innerHTML += "<td>" + clientSnapshot.child(child.child('recipient').val()).child('name').val() + "</td>";
+                                    innerHTML += "<td>" + locationSnapshot.child(child.child('destination').val()).child('name').val() + "</td>";
+                                    innerHTML += "<td>" + child.child('price').val() + "</td>";
+                                    innerHTML += "</tr>";
 
-                            i += 1;
-                        }
+                                    i += 1;
+                                }
+                            });
+                        });
                     });
                 });
 
@@ -327,7 +335,8 @@
                         data: revenue,
                         xkey: 'date',
                         ykeys: ['revenue'],
-                        labels: ['Revenue']
+                        labels: ['Revenue'],
+                        xLabels: 'day'
                     });
                 });
             } catch (e) {
