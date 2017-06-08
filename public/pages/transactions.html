@@ -442,6 +442,7 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
+            var locationRef = firebase.database().ref('/locations');
             var tbl = $('#tblClients').DataTable({
                 columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "destination"}, {data: 'exported'}],
                 responsive: true
@@ -449,7 +450,7 @@
             var clients = firebase.database().ref('/transactions');
             clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": child.child('destination').val(), "exported": child.child('exported').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": locationRef.child(child.child('destination').val()).val(), "exported": child.child('exported').val()}).draw();
                 });
 
             });
