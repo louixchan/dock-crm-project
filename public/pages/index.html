@@ -324,10 +324,10 @@
                     var errorMessage = error.message;
                 });
 
-                var innerHTML = "<tr>testing tesing</tr>";
                 var transactions = firebase.database().ref('/transactions');
                 transactions.on('value', function(snapshot) {
                     var i = 0
+                    var innerHTML = ""
                     firebase.database().ref('/clients').once('value').then(function(clientSnapshot){
                         firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
                             snapshot.forEach(function(child){
