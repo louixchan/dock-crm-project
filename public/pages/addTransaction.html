@@ -459,7 +459,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    
+
     <script type="text/javascript">
         $("document").ready(function(){
             var clients = firebase.database().ref('/clients');
@@ -504,12 +504,12 @@
 
             if(!error)
             {
-                console.log("trying to upload transaction here");
+                console.log("trying to upload transaction here 1");
                 try
                 {
 
                     firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
-                        
+                        console.log("trying to upload transaction here 2");
                         var existingRevenue = 0;
 
                         if (!revenuesnapshot.hasChild($("#txtDate").val()))
@@ -531,7 +531,9 @@
                         updates['/revenue/' + $("#txtDate").val()] = existingRevenue + $("#txtPrice").val();
 
                         firebase.database().ref().update(updates);
+                        console.log("trying to upload transaction here 3");
                     });
+                    console.log("trying to upload transaction here 4");
 
                     // firebase.database().ref('/transactions').once('value').then(function(snapshot){
                     //     if (!snapshot.hasChild($("#txtId").val()))
@@ -565,6 +567,7 @@
                 {
                     console.error(e);
                 }
+                console.log("trying to upload transaction here 5");
             }
         });
     </script>
