@@ -457,7 +457,7 @@
             var locations = firebase.database().ref('/locations');
             locations.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    $("#lstLocation").append("<option value='" + child.key + "'>" + child.val() + "</option>");
+                    $("#lstLocation").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
                 });
             });
         });
