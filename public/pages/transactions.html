@@ -473,7 +473,7 @@
                 firebase.database().ref('/locations').once('value').then(function(locations){
                     firebase.database().ref('/clients').once('value').then(function(clients){
                         snapshot.forEach(function(child){
-                            tbl.row.add({"id": child.key, "name": clients.child(child.child('client').val() + "/name").val(), "price": child.child('price').val(), "destination": locations.child(child.child('destination').val()).val(), "exported": child.child('exported').val()}).draw();
+                            tbl.row.add({"id": child.key, "name": clients.child(child.child('client').val() + "/name").val(), "price": child.child('price').val(), "destination": locations.child(child.child('destination').val()).child('name').val(), "exported": child.child('exported').val()}).draw();
                         });
                     })
                 })
