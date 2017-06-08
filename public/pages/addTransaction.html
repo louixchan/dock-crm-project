@@ -427,6 +427,13 @@
                                             <input type="number" class="form-control" id="txtPrice">
                                             <p class="help-block">Enter price here.</p>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Select Payment Mode</label>
+                                            <select class="form-control" id="lstPayment">
+                                                <option value="-1"></option>
+                                            </select>
+                                            <p class="help-block">Click <a href="#">here</a> to add new destination.</p>
+                                        </div>
                                         <button type='button' class="btn btn-default" id="btnSubmit">Submit Button</button>
                                         <button type="reset" class="btn btn-default">Reset Button</button>
                                     </form>
@@ -476,6 +483,16 @@
                     $("#lstDestination").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
                 });
             });
+
+            var payments = firebase.database().ref('/payments');
+            payments.on('value', function(snapshot) {
+                snapshot.forEach(function(child){
+                    $("#lstPayment").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                });
+            });
+
+            $("#txtDate").setAttribute("value", new Date());
+            $("#txtDate").setAttribute("max", new Date());
         });
 
         $("#btnSubmit").click(function(){
@@ -522,7 +539,8 @@
                             recipient: $("#lstRecipient").val(),
                             destination: $("#lstDestination").val(),
                             date: $("#txtDate").val(),
-                            price: $("#txtPrice").val()
+                            price: $("#txtPrice").val(),
+                            payment: $("#lstPayment").val()
                         };
 
                         firebase.database().ref('/location/' + $("#lstDestination").val() + '/outsource').once('value').then(function(snapshot){
