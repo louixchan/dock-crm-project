@@ -300,7 +300,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
-                                <div id="chtClients"></div>
+                                <div id="chtTransactions"></div>
                             </div>
                             <!-- /.row -->
                         </div>
@@ -330,7 +330,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
-                                <div id="chtClients"></div>
+                                <div id="chtLocations"></div>
                             </div>
                             <!-- /.row -->
                         </div>
@@ -419,7 +419,6 @@
                         revenue.push(temp);
                     });
 
-                    $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
                     new Morris.Line({
                         element: "chtRevenue",
                         data: revenue,
@@ -427,6 +426,22 @@
                         ykeys: ['revenue'],
                         labels: ['Revenue'],
                         xLabels: 'day'
+                    });
+                });
+
+                firebase.database().ref('/clients').once('value').then(function(snapshot){
+
+                    var clients = [];
+                    var temp = {};
+                    snapshot.forEach(function(child){
+                        temp['label'] = child.chile('name').val();
+                        temp['value'] = child.child('revenue').val();
+                        revenue.push(temp);
+                    });
+
+                    new Morris.Donut({
+                        element: "chtClients",
+                        data: revenue
                     });
                 });
             } catch (e) {
