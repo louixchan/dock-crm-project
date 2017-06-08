@@ -447,12 +447,16 @@
                 columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "destination"}, {data: 'exported'}],
                 responsive: true
             });
-            var clients = firebase.database().ref('/transactions');
-            clients.on('value', function(snapshot) {
-                snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": locationRef.child(child.child('destination').val()).once('value').then(function(snapshot){return snapshot.val()}), "exported": child.child('exported').val()}).draw();
-                });
 
+            var transactions = firebase.database().ref('/transactions');
+            transactions.on('value', function(snapshot) {
+                firebase.database().ref('/locations').once('value').then(function(locations){
+                    firebase.database().ref('/clients').once('value').then(function(clients){
+                        snapshot.forEach(function(child){
+                            tbl.row.add({"id": child.key, "name": clients.child(child.child('client').val()).val(), "price": child.child('price').val(), "destination": locations.child(child.child('destination').val()).val(), "exported": child.child('exported').val()}).draw();
+                        });
+                    })
+                })
             });
         });
     </script>
