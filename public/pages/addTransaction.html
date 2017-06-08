@@ -509,21 +509,59 @@
             console.log("trying to upload transaction here");
             try
             {
-                firebase.database().ref('/transactions').once('value').then(function(snapshot){
-                    if (!snapshot.hasChild($("#txtId").val()))
+
+                firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
+                    
+                    var existingRevenue = 0;
+
+                    if (!revenuesnapshot.hasChild($("#txtDate").val()))
                     {
-                        firebase.database().ref('/transactions/' + $("#txtId").val()).set({
-                            client: $("#lstClient").val(),
-                            recipient: $("#lstRecipient").val(),
-                            destination: $("#lstDestination").val(),
-                            date: $("#txtDate").val(),
-                            price: $("#txtPrice").val()
-                        });
-                        firebase.database().ref('revenue/' + $("#txtDate").val()).transaction(function(revenue) {
-                            revenue = revenue + $("#txtPrice").val();
-                        });
+                        existingRevenue = revenuesnapshot.val();
                     }
-                })
+
+                    var updates = {};
+
+                    var transaction = {
+                        client: $("#lstClient").val(),
+                        recipient: $("#lstRecipient").val(),
+                        destination: $("#lstDestination").val(),
+                        date: $("#txtDate").val(),
+                        price: $("#txtPrice").val()
+                    };
+
+                    updates['/transactions/' + $("#txtId").val()] = transaction;
+                    updates['/revenue/' + $("#txtDate").val()] = existingRevenue + $("#txtPrice").val();
+
+                    firebase.database().ref().update(updates);
+                });
+
+                // firebase.database().ref('/transactions').once('value').then(function(snapshot){
+                //     if (!snapshot.hasChild($("#txtId").val()))
+                //     {
+                //         firebase.database().ref('/transactions/' + $("#txtId").val()).set({
+                //             client: $("#lstClient").val(),
+                //             recipient: $("#lstRecipient").val(),
+                //             destination: $("#lstDestination").val(),
+                //             date: $("#txtDate").val(),
+                //             price: $("#txtPrice").val()
+                //         });
+                //         firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
+                //             if (!revenuesnapshot.hasChild($("#txtDate").val()))
+                //             {
+                //                 firebase.database().ref('/revenue/' + $("#txtDate").val()).set(
+                //                     $("#txtPrice").val()
+                //                 );
+                //             }
+                //             else
+                //             {
+                //                 revenue = revenuesnapshot.val() + $("#txtPrice").val();
+                //                 firebase.database().ref('/revenue/' + $("#txtDate").val()).set(
+                //                     revenue
+                //                 );
+                //             }
+                //         });
+                //     }
+                // });
             }
             catch(e)
             {
