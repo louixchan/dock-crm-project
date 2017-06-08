@@ -506,20 +506,18 @@
 
         if(!error)
         {
-            var transaction = {};
-            transaction['client'] = $("#lstClient").val();
-            transaction['recipient'] = $("#lstRecipient").val();
-            transaction['destination'] = $("#lstDestination").val();
-            transaction['date'] = $("#txtdate").val();
-            transaction['price'] = $("#txtPrice").val();
-
-            console.log(transaction);
             firebase.database().ref('/transactions').once('value').then(function(snapshot){
                 if (!snapshot.hasChild($("#txtId").val()))
                 {
-                    firebase.database().ref('/transactions/' + $("#txtId").val()).set(transaction);
+                    firebase.database().ref('/transactions/' + $("#txtId").val()).set({
+                        client: $("#lstClient").val(),
+                        recipient: $("#lstRecipient").val(),
+                        destination: $("#lstDestination").val(),
+                        date: $("#txtdate").val(),
+                        price: $("#txtPrice").val()
+                    });
                     firebase.database().ref('revenue/' + $("#txtDate").val()).transaction(function(revenue) {
-                        revenue = revenue + transaction['price'];
+                        revenue = revenue + $("#txtPrice").val();
                     });
                 }
             })
