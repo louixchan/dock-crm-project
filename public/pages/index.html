@@ -383,7 +383,7 @@
                                     i += 1;
                                 }
                             });
-                            $("#tblTransaction").innerHTML = innerHTML;
+                            $("#tblTransaction").append('<tbody>' + innerHTML + '</tbody>');
 
                             $("#transactionCount").innerHTML = snapshot.numChildren();
                         });
