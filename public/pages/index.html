@@ -557,7 +557,7 @@
                                 </div>
                                 <!-- /.col-lg-4 (nested) -->
                                 <div class="col-lg-8">
-                                    <div id="morris-bar-chart"></div>
+                                    <div id="chtRevenue"></div>
                                 </div>
                                 <!-- /.col-lg-8 (nested) -->
                             </div>
@@ -933,9 +933,27 @@
                             i += 1;
                         }
                     });
+                });
+
+                firebase.database().ref('/revenue').once('value').then(function(snapshot){
+
+                    var revenue = [];
+                    var temp = {};
+                    snapshot.forEach(function(child){
+                        temp['date'] = child.key;
+                        temp['revenue'] = child.val();
+                        revenue.push(temp);
+                    });
 
                     $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
-                });
+                    new Morris.Line({
+                        element: "chtRevenue",
+                        data: revenue,
+                        xkey: 'date',
+                        ykeys: ['revenue'],
+                        labels: ['Revenue']
+                    });
+                })
             } catch (e) {
                 console.error(e);
             }
