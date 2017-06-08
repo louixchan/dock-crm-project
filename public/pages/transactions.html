@@ -487,8 +487,7 @@
                     temp['revenue'] = child.val();
                     revenue.push(temp);
                 });
-
-                $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
+                
                 new Morris.Line({
                     element: "chtRevenue",
                     data: revenue,
