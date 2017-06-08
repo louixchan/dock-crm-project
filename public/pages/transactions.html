@@ -389,6 +389,22 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="chtRevenue"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
@@ -439,6 +455,10 @@
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
 
+    <!-- Morris Charts JavaScript -->
+    <script src="../vendor/raphael/raphael.min.js"></script>
+    <script src="../vendor/morrisjs/morris.min.js"></script>
+
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
@@ -457,6 +477,26 @@
                         });
                     })
                 })
+            });
+        });
+
+        firebase.database().ref('/revenue').once('value').then(function(snapshot){
+
+            var revenue = [];
+            var temp = {};
+            snapshot.forEach(function(child){
+                temp['date'] = child.key;
+                temp['revenue'] = child.val();
+                revenue.push(temp);
+            });
+
+            $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
+            new Morris.Line({
+                element: "chtRevenue",
+                data: revenue,
+                xkey: 'date',
+                ykeys: ['revenue'],
+                labels: ['Revenue']
             });
         });
     </script>
