@@ -450,7 +450,7 @@
             var clients = firebase.database().ref('/transactions');
             clients.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": locationRef.child(child.child('destination').val()).val(), "exported": child.child('exported').val()}).draw();
+                    tbl.row.add({"id": child.key, "name": child.child('client').val(), "price": child.child('price').val(), "destination": locationRef.child(child.child('destination').val()).once('value').then(function(snapshot){return snapshot.val()}), "exported": child.child('exported').val()}).draw();
                 });
 
             });
