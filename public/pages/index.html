@@ -416,19 +416,32 @@
                     snapshot.forEach(function(child){
                         temp['label'] = child.child('name').val();
                         temp['value'] = child.child('revenue').val();
-                        revenue.push(temp);
+                        clients.push(temp);
                     });
 
                     $("#clientCount").innerHTML = snapshot.numChildren();
 
                     new Morris.Donut({
                         element: "chtClients",
-                        data: revenue
+                        data: clients
                     });
                 });
 
                 firebase.database().ref('/clients').once('value').then(function(snapshot){
+                    var locations = [];
+                    var temp = {};
+                    snapshot.forEach(function(child){
+                        temp['label'] = child.child('name').val();
+                        temp['value'] = child.child('revenue').val();
+                        locations.push(temp);
+                    });
+
                     $("#locationCount").innerHTML = snapshot.numChildren();
+
+                    new Morris.Donut({
+                        element: "chtClients",
+                        data: locations
+                    });
                 });
             } catch (e) {
                 console.error(e);
