@@ -478,27 +478,27 @@
                     })
                 })
             });
+            firebase.database().ref('/revenue').once('value').then(function(snapshot){
+
+                var revenue = [];
+                var temp = {};
+                snapshot.forEach(function(child){
+                    temp['date'] = child.key;
+                    temp['revenue'] = child.val();
+                    revenue.push(temp);
+                });
+
+                $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
+                new Morris.Line({
+                    element: "chtRevenue",
+                    data: revenue,
+                    xkey: 'date',
+                    ykeys: ['revenue'],
+                    labels: ['Revenue']
+                });
+            });
         });
 
-        firebase.database().ref('/revenue').once('value').then(function(snapshot){
-
-            var revenue = [];
-            var temp = {};
-            snapshot.forEach(function(child){
-                temp['date'] = child.key;
-                temp['revenue'] = child.val();
-                revenue.push(temp);
-            });
-
-            $("#tblTransaction").append("<tbody>" + innerHTML + "</tbody>");
-            new Morris.Line({
-                element: "chtRevenue",
-                data: revenue,
-                xkey: 'date',
-                ykeys: ['revenue'],
-                labels: ['Revenue']
-            });
-        });
     </script>
 
 </body>
