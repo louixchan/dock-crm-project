@@ -190,7 +190,7 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             var tbl = $('#tblClients').DataTable({
                 columns: [{data: "name"}, {data: "location"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}, {data: "actions"}],
                 responsive: true

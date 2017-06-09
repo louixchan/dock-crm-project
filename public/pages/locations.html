@@ -205,7 +205,7 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             var tbl = $('#tblClients').DataTable({
                 columns: [{data: "name"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}, {data: "actions"}],
                 responsive: true
@@ -215,6 +215,7 @@
                     tbl.row.add({
 
                         "name": child.child('name').val(),  
+                        "recipient": child.child('recipient').val()
                         "revenue-0": child.child('revenue').val()[0],
                         "revenue-1": child.child('revenue').val()[1],
                         "revenue-2": child.child('revenue').val()[2],
