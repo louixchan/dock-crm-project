@@ -206,7 +206,7 @@
                 locationSnapshot.forEach(function(child){
                     tbl.row.add({
 
-                        "name": child.child('name').val(),  
+                        "name": child.child('name').val(),
                         "recipient": child.child('recipient').val(),
                         "revenue-0": child.child('revenue').val()[0],
                         "revenue-1": child.child('revenue').val()[1],
@@ -237,7 +237,7 @@
                         outsource: $("#cbxOutsource").val(),
                         revenue: [0, 0, 0],
                         amountDue: 0,
-                        specialExport: $("#cbxExport").val();
+                        specialExport: $("#cbxExport").val()
                     };
 
                     firebase.database().ref('/locations/' + $("#txtId").val()).push(client);
