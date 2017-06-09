@@ -206,7 +206,7 @@
                         amountDue: 0
                     };
 
-                    firebase.database().ref('/clients/' + $("#txtId").val()).push(client);
+                    firebase.database().ref('/clients/').push(client);
                 }
                 catch(e)
                 {
