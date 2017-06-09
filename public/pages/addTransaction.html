@@ -267,10 +267,12 @@
                             firebase.database().ref('/clients/' + $("#lstClient").val()).once('value').then(function(snapshot){
                                 var clientRevenue = snapshot.child('revenue').val();
 
+                                var price = parseFloat($("#txtPrice").val());
+
                                 updates['/transactions/' + $("#txtId").val()] = transaction;
-                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue + $("#txtPrice").val();
-                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + $("#txtPrice").val();
-                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + $("#txtPrice").val();
+                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue + price;
+                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + price;
+                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
 
                                 firebase.database().ref().update(updates);
                             });
