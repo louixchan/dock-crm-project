@@ -157,7 +157,7 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "mode"}, {data: "location"}, {data: "revenue"}],
+                columns: [{data: "id"}, {data: "name"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}],
                 responsive: true
             });
             firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
@@ -167,6 +167,9 @@
 
                             "id": child.key, 
                             "name": child.child('name').val(),  
+                            "revenue-0": child.child('revenue').val()[0],
+                            "revenue-1": child.child('revenue').val()[1],
+                            "revenue-2": child.child('revenue').val()[2],
                             "revenue": child.child('revenue').val().reduce((a, b) => a + b, 0)
 
                             }).draw();
