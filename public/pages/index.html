@@ -362,7 +362,7 @@
                     snapshot.forEach(function(child){
                         temp = {};
                         temp['date'] = child.key;
-                        temp['revenue'] = child.val();
+                        temp['revenue'] = child.val().reduce((a, b) => a + b, 0);
                         revenue.push(temp);
                     });
 
@@ -402,7 +402,7 @@
                     snapshot.forEach(function(child){
                         temp = {};
                         temp['label'] = child.child('name').val();
-                        temp['value'] = child.child('revenue').val();
+                        temp['value'] = child.child('revenue').val().reduce((a, b) => a + b, 0);
                         locations.push(temp);
                     });
 

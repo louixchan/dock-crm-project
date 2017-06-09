@@ -162,12 +162,12 @@
             });
             firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
                 firebase.database().ref('/payment-mode').once('value').then(function(modeSnapshot){
-                    snapshot.forEach(function(child){
+                    locationSnapshot.forEach(function(child){
                         tbl.row.add({
 
                             "id": child.key, 
                             "name": child.child('name').val(),  
-                            "revenue": child.child('revenue').val()
+                            "revenue": child.child('revenue').val().reduce((a, b) => a + b, 0)
 
                             }).draw();
                     });
