@@ -239,7 +239,7 @@
                 {
 
                     firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
-                        var existingRevenue = 0;
+                        var existingRevenue = [0, 0, 0];
 
                         if (revenuesnapshot.child($("#txtDate").val()).val() != null)
                         {
@@ -268,6 +268,10 @@
                                 var clientRevenue = snapshot.child('revenue').val();
 
                                 var price = parseFloat($("#txtPrice").val());
+
+                                existingRevenue[parseInt($("#lstPayment").val())] += price;
+                                locationRevenue[parseInt($("#lstPayment").val())] += price;
+                                clientRevenue[parseInt($("#lstPayment").val())] += price;
 
                                 updates['/transactions/' + $("#txtId").val()] = transaction;
                                 updates['/revenue/' + $("#txtDate").val()] = existingRevenue + price;

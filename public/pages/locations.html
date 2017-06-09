@@ -165,14 +165,13 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}, {data: "actions"}],
+                columns: [{data: "name"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}, {data: "actions"}],
                 responsive: true
             });
             firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
                 locationSnapshot.forEach(function(child){
                     tbl.row.add({
 
-                        "id": child.key, 
                         "name": child.child('name').val(),  
                         "revenue-0": child.child('revenue').val()[0],
                         "revenue-1": child.child('revenue').val()[1],
