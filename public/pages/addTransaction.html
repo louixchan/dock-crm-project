@@ -198,7 +198,7 @@
                 });
             });
 
-            var payments = firebase.database().ref('/payments');
+            var payments = firebase.database().ref('/payment-mode');
             payments.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
                     $("#lstPayment").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
@@ -241,7 +241,7 @@
                     firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
                         var existingRevenue = 0;
 
-                        if (!revenuesnapshot.hasChild($("#txtDate").val()))
+                        if (revenuesnapshot.child($("#txtDate").val()).val() != null)
                         {
                             existingRevenue = revenuesnapshot.val();
                         }
