@@ -201,7 +201,7 @@
             var payments = firebase.database().ref('/payment-mode');
             payments.on('value', function(snapshot) {
                 snapshot.forEach(function(child){
-                    $("#lstPayment").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                    $("#lstPayment").append("<option value='" + child.key + "'>" + child.val() + "</option>");
                 });
             });
 
