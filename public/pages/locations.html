@@ -160,24 +160,19 @@
                 columns: [{data: "id"}, {data: "name"}, {data: "mode"}, {data: "location"}, {data: "revenue"}],
                 responsive: true
             });
-            var clients = firebase.database().ref('/clients');
-            clients.on('value', function(snapshot) {
-                firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
-                    firebase.database().ref('/payment-mode').once('value').then(function(modeSnapshot){
-                        snapshot.forEach(function(child){
-                            tbl.row.add({
+            firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
+                firebase.database().ref('/payment-mode').once('value').then(function(modeSnapshot){
+                    snapshot.forEach(function(child){
+                        tbl.row.add({
 
-                                "id": child.key, 
-                                "name": child.child('name').val(), 
-                                "mode": modeSnapshot.child(child.child('mode').val()).val(), 
-                                "location": locationSnapshot.child(child.child('location').val()).child('name').val(), 
-                                "revenue": child.child('revenue').val()
+                            "id": child.key, 
+                            "name": child.child('name').val(),  
+                            "revenue": child.child('revenue').val()
 
-                                }).draw();
-                        });
-                    })
+                            }).draw();
+                    });
                 })
-            });
+            })
         });
     </script>
 
