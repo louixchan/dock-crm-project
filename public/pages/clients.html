@@ -121,7 +121,6 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="tblClients">
                                 <thead>
                                     <tr>
-                                        <th>Client ID</th>
                                         <th>Client Name</th>
                                         <th>Payment Mode</th>
                                         <th>Location</th>
@@ -163,7 +162,7 @@
     <script>
         $(document).ready(function() {
             var tbl = $('#tblClients').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "mode"}, {data: "location"}, {data: "revenue"}],
+                columns: [{data: "name"}, {data: "mode"}, {data: "location"}, {data: "revenue"}, {data: "actions"}],
                 responsive: true
             });
             var clients = firebase.database().ref('/clients');
@@ -173,11 +172,11 @@
                         snapshot.forEach(function(child){
                             tbl.row.add({
 
-                                "id": child.key, 
                                 "name": child.child('name').val(), 
                                 "mode": modeSnapshot.child(child.child('mode').val()).val(), 
                                 "location": locationSnapshot.child(child.child('location').val()).child('name').val(), 
                                 "revenue": child.child('revenue').val()
+                                "actions": "<a href='editClient?id=" + child.key + "'>Edit Client</a>";
 
                                 }).draw();
                         });
