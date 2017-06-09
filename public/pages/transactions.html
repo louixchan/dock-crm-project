@@ -140,10 +140,10 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="tblTransactions">
                                 <thead>
                                     <tr>
-                                        <th>Client ID</th>
-                                        <th>Client</th>
-                                        <th>Destination</th>
-                                        <th>Exported</th>
+                                        <th>寄件客戶</th>
+                                        <th>收件客戶</th>
+                                        <th>目的地</th>
+                                        <th>轉運</th>
                                         <th>Payment Mode</th>
                                         <th>Price</th>
                                         <th></th>
@@ -245,7 +245,7 @@
         $(document).ready(function() {
             var locationRef = firebase.database().ref('/locations');
             var tbl = $('#tblTransactions').DataTable({
-                columns: [{data: "id"}, {data: "name"}, {data: "price"}, {data: "mode"}, {data: "destination"}, {data: 'exported'}],
+                columns: [{data: "id"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: 'outsource'}, {data: "actions"}],
                 responsive: true
             });
 
@@ -253,20 +253,24 @@
             transactions.on('value', function(snapshot) {
                 firebase.database().ref('/locations').once('value').then(function(locations){
                     firebase.database().ref('/clients').once('value').then(function(clients){
-                        snapshot.forEach(function(child){
-                            tbl.row.add({
+                        firebase.database().ref('/payment-mode').once('value').then(function(modes){
+                            snapshot.forEach(function(child){
+                                tbl.row.add({
 
-                                "id": child.key, 
-                                "name": clients.child(child.child('client').val() + "/name").val(), 
-                                "price": child.child('price').val(), 
-                                "destination": locations.child(child.child('destination').val()).child('name').val(), 
-                                "exported": child.child('exported').val(),
-                                "actions": "<a href='editTransaction?id=" + child.key + "'>Edit Transaction</a>"
+                                    "id": child.key, 
+                                    "client": clients.child(child.child('client').val() + "/name").val(), 
+                                    "recipient": clients.child(child.child('recipient').val() + "/name").val(), 
+                                    "price": child.child('price').val(), 
+                                    "destination": locations.child(child.child('destination').val()).child('name').val(), 
+                                    "mode": modes.val()[child.child('mode').val()], 
+                                    "outsource": child.child('outsource').val(),
+                                    "actions": "<a href='editTransaction?id=" + child.key + "'>Edit Transaction</a>"
 
-                            }).draw();
+                                }).draw();
+                            });
                         });
-                    })
-                })
+                    });
+                });
             });
             firebase.database().ref('/revenue').once('value').then(function(snapshot){
 
@@ -336,7 +340,7 @@
                             destination: $("#lstDestination").val(),
                             date: $("#txtDate").val(),
                             price: parseFloat($("#txtPrice").val()),
-                            payment: $("#lstPayment").val()
+                            mode: $("#lstPayment").val()
                         };
 
                         firebase.database().ref('/location/' + $("#lstDestination").val()).once('value').then(function(snapshot){
