@@ -225,6 +225,36 @@
                 });
             })
         });
+
+        $("#btnSubmit").click(function(){
+            var error = false;
+
+            if (!error && $("#txtName").val() == "")
+            {
+                alert("Please input a valid transaction id.");
+                error = true;
+            }
+
+            if(!error)
+            {
+                try
+                {
+                    var location = {
+                        name: $("#txtName").val(),
+                        outsource: $("#cbxOutsource").val(),
+                        revenue: [0, 0, 0],
+                        amountDue: 0
+                        specialExport: $("#cbxExport").val();
+                    };
+
+                    firebase.database().ref('/locations/' + $("#txtId").val()).push(client);
+                }
+                catch(e)
+                {
+                    console.error(e);
+                }
+            }
+        });
     </script>
 
 </body>

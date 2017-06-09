@@ -291,6 +291,87 @@
             });
         });
 
+        $("#btnSubmit").click(function(){
+            var error = false;
+
+            if (!error && $("#txtId").val() == "")
+            {
+                alert("Please input a valid transaction id.");
+                error = true;
+            }
+            if (!error && $("#lstClient").val() == "-1")
+            {
+                alert("Select a valid Client from the list please.");
+                error = true;
+            }
+            if (!error && $("#lstRecipient").val() == "-1")
+            {
+                alert("Select a valid Recipient from the list please.");
+                error = true;
+            }
+            if (!error && $("#lstDestination").val() == "-1")
+            {
+                alert("Select a valid Destination from the list please.");
+                error = true;
+            } 
+
+            if(!error)
+            {
+                try
+                {
+
+                    firebase.database().ref('/revenue').once('value').then(function(revenuesnapshot){
+                        var existingRevenue = [0, 0, 0];
+
+                        if (revenuesnapshot.child($("#txtDate").val()).val() != null)
+                        {
+                            existingRevenue = revenuesnapshot.val();
+                        }
+
+                        var updates = {};
+
+                        var transaction = {
+                            client: $("#lstClient").val(),
+                            recipient: $("#lstRecipient").val(),
+                            destination: $("#lstDestination").val(),
+                            date: $("#txtDate").val(),
+                            price: parseFloat($("#txtPrice").val()),
+                            payment: $("#lstPayment").val()
+                        };
+
+                        firebase.database().ref('/location/' + $("#lstDestination").val()).once('value').then(function(snapshot){
+                            var locationRevenue = snapshot.child('revenue').val();
+                            if (snapshot.child('outsource').val() == true)
+                            {
+                                transaction['exported'] = false
+                            }
+
+                            firebase.database().ref('/clients/' + $("#lstClient").val()).once('value').then(function(snapshot){
+                                var clientRevenue = snapshot.child('revenue').val();
+
+                                var price = parseFloat($("#txtPrice").val());
+
+                                existingRevenue[parseInt($("#lstPayment").val())] += price;
+                                locationRevenue[parseInt($("#lstPayment").val())] += price;
+                                clientRevenue[parseInt($("#lstPayment").val())] += price;
+
+                                updates['/transactions/' + $("#txtId").val()] = transaction;
+                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue + price;
+                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + price;
+                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
+
+                                firebase.database().ref().update(updates);
+                            });
+                        })
+                    });
+                }
+                catch(e)
+                {
+                    console.error(e);
+                }
+            }
+        });
+
     </script>
 
 </body>
