@@ -257,16 +257,23 @@
                             payment: $("#lstPayment").val()
                         };
 
-                        firebase.database().ref('/location/' + $("#lstDestination").val() + '/outsource').once('value').then(function(snapshot){
-                            if (snapshot.val() == true)
+                        firebase.database().ref('/location/' + $("#lstDestination").val()).once('value').then(function(snapshot){
+                            var locationRevenue = snapshot.child('revenue').val();
+                            if (snapshot.child('outsource').val() == true)
                             {
                                 transaction['exported'] = false
                             }
 
-                            updates['/transactions/' + $("#txtId").val()] = transaction;
-                            updates['/revenue/' + $("#txtDate").val()] = existingRevenue + $("#txtPrice").val();
+                            firebase.database().ref('/clients/' + $("#lstClient").val()).once('value').then(function(snapshot){
+                                var clientRevenue = snapshot.child('revenue').val();
 
-                            firebase.database().ref().update(updates);
+                                updates['/transactions/' + $("#txtId").val()] = transaction;
+                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue + $("#txtPrice").val();
+                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + $("#txtPrice").val();
+                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + $("#txtPrice").val();
+
+                                firebase.database().ref().update(updates);
+                            });
                         })
                     });
                 }

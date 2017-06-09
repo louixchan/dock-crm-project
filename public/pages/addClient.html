@@ -207,6 +207,7 @@
                     };
 
                     firebase.database().ref('/clients/').push(client);
+                    location.reload();
                 }
                 catch(e)
                 {
