@@ -261,7 +261,7 @@
                                 "price": child.child('price').val(), 
                                 "destination": locations.child(child.child('destination').val()).child('name').val(), 
                                 "exported": child.child('exported').val(),
-                                "actions": "<a href='editTransaction?id=" + child.key + "'>Edit Transaction</a>";
+                                "actions": "<a href='editTransaction?id=" + child.key + "'>Edit Transaction</a>"
 
                             }).draw();
                         });
