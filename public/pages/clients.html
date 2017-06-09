@@ -140,33 +140,27 @@
                             Basic Form Elements
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <form role="form">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input class="form-control" id="txtName">
-                                            <p class="help-block">Enter Client Name here.</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Select Location</label>
-                                            <select class="form-control" id="lstLocation">
-                                                <option value="-1"></option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Select Payment Mode</label>
-                                            <select class="form-control" id="lstPayment">
-                                                <option value="-1"></option>
-                                            </select>
-                                        </div>
-                                        <button type='button' class="btn btn-default" id="btnSubmit">Submit Button</button>
-                                        <button type="reset" class="btn btn-default">Reset Button</button>
-                                    </form>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input class="form-control" id="txtName">
+                                    <p class="help-block">Enter Client Name here.</p>
                                 </div>
-                                <!-- /.col-lg-6 (nested) -->
-                            </div>
-                            <!-- /.row (nested) -->
+                                <div class="form-group">
+                                    <label>Select Location</label>
+                                    <select class="form-control" id="lstLocation">
+                                        <option value="-1"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Payment Mode</label>
+                                    <select class="form-control" id="lstPayment">
+                                        <option value="-1"></option>
+                                    </select>
+                                </div>
+                                <button type='button' class="btn btn-default" id="btnSubmit">Submit Button</button>
+                                <button type="reset" class="btn btn-default">Reset Button</button>
+                            </form>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -215,7 +209,7 @@
                                 "mode": modeSnapshot.child(child.child('mode').val()).val(), 
                                 "location": locationSnapshot.child(child.child('location').val()).child('name').val(), 
                                 "revenue": child.child('revenue').val()
-                                "actions": "<a href='editClient?id=" + child.key + "'>Edit Client</a>";
+                                "actions": "<a href='editClient?id=" + child.key + "'>Edit Client</a>"
 
                                 }).draw();
                         });
