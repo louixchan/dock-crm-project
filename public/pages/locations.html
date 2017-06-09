@@ -178,7 +178,7 @@
                         "revenue-1": child.child('revenue').val()[1],
                         "revenue-2": child.child('revenue').val()[2],
                         "revenue": child.child('revenue').val().reduce((a, b) => a + b, 0),
-                        "actions": "<a href='editLocation?id=" + child.key + "'/>"
+                        "actions": "<a href='editLocation?id=" + child.key + "'>Edit Location</a>"
 
                         }).draw();
                 });
