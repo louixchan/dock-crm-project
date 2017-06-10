@@ -236,6 +236,10 @@
                 responsive: true
             });
             firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
+
+                var locations = [];
+                var temp = {};
+                
                 locationSnapshot.forEach(function(child){
                     tbl.row.add({
 
@@ -248,6 +252,18 @@
                         "actions": "<a href='editLocation?id=" + child.key + "'>修改地點</a>"
 
                         }).draw();
+
+                    temp = {};
+                    temp['label'] = child.child('name').val();
+                    temp['value'] = child.child('revenue').val().reduce((a, b) => a + b, 0);
+                    locations.push(temp);
+                });
+
+                new Morris.Donut({
+                    element: "chtLocations",
+                    data: locations,
+                    formatter: function (y, data) { return '$' + y.toString() },
+                    colors: "#00FF00"
                 });
             })
         });
