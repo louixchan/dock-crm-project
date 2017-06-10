@@ -229,13 +229,13 @@
                 locationSnapshot.forEach(function(child){
                     tbl.row.add({
 
-                        "name": "<a href='client?location=\"" + child.key + "\"'>" + child.child('name').val() + "</a>",
+                        "name": "<a href='client?location.html=\"" + child.key + "\"'>" + child.child('name').val() + "</a>",
                         "recipient": child.child('recipient').val(),
                         "revenue-0": child.child('revenue').val()[0],
                         "revenue-1": child.child('revenue').val()[1],
                         "revenue-2": child.child('revenue').val()[2],
                         "revenue": child.child('revenue').val().reduce((a, b) => a + b, 0),
-                        "actions": "<a href='editLocation?id=" + child.key + "'>修改地點</a>"
+                        "actions": "<a href='editLocation.html?id=" + child.key + "'>修改地點</a>"
 
                         }).draw();
 
@@ -251,7 +251,7 @@
                     formatter: function (y, data) { return '$' + y.toString() },
                     colors: "#00FF00"
                 });
-            })
+            });
         });
 
         $("#btnSubmit").click(function(){

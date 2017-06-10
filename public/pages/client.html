@@ -56,7 +56,7 @@
             <!-- /.col-lg-12 -->
         </div>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         DataTables Advanced Tables
@@ -104,33 +104,56 @@
                 </div>
                 <!-- /.panel -->
             </div>
-            <!-- /.col-lg-8 -->
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Basic Form Elements
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> 最新訂單
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                更多
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a href="addTransaction.html">新增訂單</a>
+                                </li>
+                                <li><a href="transactions.html">所有訂單</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="panel-body">
-
-                    </div>
-                    <!-- /.panel-body -->
                 </div>
-                <!-- /.panel -->
-            </div>
-            <!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        訂單數據
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped" id="tblTransactions">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>日期</th>
+                                            <th>收件客戶</th>
+                                            <th>目的地</th>
+                                            <th>價格</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        <div class="col-lg-6">
+                            <div id="chtRevenue"></div>
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
                     </div>
-                    <div class="panel-body">
-                        <div id="chtRevenue"></div>
-                    </div>
-                    <!-- /.panel-body -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.panel -->
+                <!-- /.panel-body -->
             </div>
-            <!-- /.col-lg-4 -->
         </div>
     </div>
     <!-- /#page-wrapper -->
@@ -159,17 +182,41 @@
 	<script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function() {
 			var id = getParameterByName('id').slice(1, -1);
+			var tbl = $('#tblTransactions').DataTable({
+                columns: [{data: "id"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}],
+                responsive: true
+            });
 
 			firebase.database().ref('/clients/' + id).once('value').then(function(snapshot){
 
-                $("#lblClientName").innerHTML = snapshot.child('name').val();
-                $("#detailClientName").innerHTML = snapshot.child('name').val();
-                $("#detailJoinDate").innerHTML = snapshot.child('joinDate').val();
-                $("#detailLocation").innerHTML = snapshot.child('location').val();
-                $("#detailRevenue1").innerHTML = snapshot.child('revenue').val()[0];
-                $("#detailRevenue2").innerHTML = snapshot.child('revenue').val()[1];
-                $("#detailRevenue3").innerHTML = snapshot.child('revenue').val()[2];
-                $("#detailTotalRevenue").innerHTML = snapshot.child('revenue').val().reduce((a, b) => a + b, 0);
+                $("#lblClientName")[0].innerHTML = snapshot.child('name').val();
+                $("#detailClientName")[0].innerHTML = snapshot.child('name').val();
+                $("#detailJoinDate")[0].innerHTML = snapshot.child('joinDate').val();
+                $("#detailLocation")[0].innerHTML = snapshot.child('location').val();
+                $("#detailRevenue1")[0].innerHTML = snapshot.child('revenue').val()[0];
+                $("#detailRevenue2")[0].innerHTML = snapshot.child('revenue').val()[1];
+                $("#detailRevenue3")[0].innerHTML = snapshot.child('revenue').val()[2];
+                $("#detailTotalRevenue")[0].innerHTML = snapshot.child('revenue').val().reduce((a, b) => a + b, 0);
+
+                snapshot.child('transactions').forEach(function(transaction){
+                	firebase.database().ref('/transactions/' + transaction.val()).once('value').then(function(transactionSnapshot){
+                		firebase.database().ref('/locations').once('value').then(function(locations){
+                			firebase.database().ref('/clients').once('value').then(function(clients){
+                				firebase.database().ref('/payment-mode').once('value').then(function(modes){
+			                		tbl.row.add({
+
+				                        "id": child.key, 
+				                        "recipient": clients.child(child.child('recipient').val() + "/name").val(), 
+				                        "price": child.child('price').val(), 
+				                        "destination": locations.child(child.child('destination').val()).child('name').val(), 
+				                        "mode": modes.val()[child.child('mode').val()], 
+
+				                    }).draw();
+			                	});
+			                });
+		                });
+                	});
+                });
             });
         });
 
