@@ -163,6 +163,21 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            客戶數據
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div id="chtClients"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-4 -->
             </div>
         </div>
         <!-- /#page-wrapper -->
@@ -211,8 +226,25 @@
 
                                 }).draw();
                         });
-                    })
-                })
+                    });
+                });
+
+                var clients = [];
+                var temp = {};
+                snapshot.forEach(function(child){
+                    temp = {};
+                    temp['label'] = child.child('name').val();
+                    temp['value'] = child.child('revenue').val().reduce((a, b) => a + b, 0);
+                    clients.push(temp);
+                });
+
+                $("#clientCount")[0].innerHTML = snapshot.numChildren();
+
+                new Morris.Donut({
+                    element: "chtClients",
+                    data: clients,
+                    formatter: function (y, data) { return '$' + y.toString() }
+                });
             });
         });
 
