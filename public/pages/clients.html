@@ -227,7 +227,7 @@
                         snapshot.forEach(function(child){
                             tbl.row.add({
 
-                                "name": child.child('name').val(), 
+                                "name": "<a href='client?id=\"" + child.child('name').val() + "\"'>" + child.child('name').val() + "</a>", 
                                 "location": locationSnapshot.child(child.child('location').val()).child('name').val(), 
                                 "revenue-0": child.child('revenue').val()[0],
                                 "revenue-1": child.child('revenue').val()[1],
