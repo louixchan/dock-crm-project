@@ -142,7 +142,7 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            新增客戶
+                            新增地點
                         </div>
                         <div class="panel-body">
                             <form role="form">
@@ -176,31 +176,10 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            新增客戶
+                            地點數據
                         </div>
                         <div class="panel-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label>名稱</label>
-                                    <input class="form-control" id="txtName">
-                                </div>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" value="" id="cbxOutsource">轉運
-                                        </label>
-                                    </div>
-                                </div> 
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" value="" id="cbxExport">Special Export
-                                        </label>
-                                    </div>
-                                </div>      
-                                <button type='button' class="btn btn-default" id="btnSubmit">提交</button>
-                                <button type="reset" class="btn btn-default">重設</button>
-                            </form>
+                            <div id="chtClients"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -250,7 +229,7 @@
                 locationSnapshot.forEach(function(child){
                     tbl.row.add({
 
-                        "name": child.child('name').val(),
+                        "name": "<a href='client?location=\"" + child.key + "\"'>" + child.child('name').val() + "</a>",
                         "recipient": child.child('recipient').val(),
                         "revenue-0": child.child('revenue').val()[0],
                         "revenue-1": child.child('revenue').val()[1],
@@ -296,7 +275,7 @@
                         specialExport: $("#cbxExport").val()
                     };
 
-                    firebase.database().ref('/locations/' + $("#txtId").val()).push(client);
+                    firebase.database().ref('/locations/' + $("#txtId").val()).push(location);
                 }
                 catch(e)
                 {
