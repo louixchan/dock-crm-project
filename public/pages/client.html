@@ -128,7 +128,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped" id="tblTransactions">
                                     <thead>
@@ -144,11 +144,11 @@
                             </div>
                             <!-- /.table-responsive -->
                         </div>
-                        <!-- /.col-lg-6 (nested) -->
-                        <div class="col-lg-6">
+                        <!-- /.col-lg-8 (nested) -->
+                        <div class="col-lg-4">
                             <div id="chtRevenue"></div>
                         </div>
-                        <!-- /.col-lg-6 (nested) -->
+                        <!-- /.col-lg-4 (nested) -->
                     </div>
                     <!-- /.row -->
                 </div>
@@ -198,11 +198,17 @@
                 $("#detailRevenue3")[0].innerHTML = snapshot.child('revenue').val()[2];
                 $("#detailTotalRevenue")[0].innerHTML = snapshot.child('revenue').val().reduce((a, b) => a + b, 0);
 
-                snapshot.child('transactions').forEach(function(transaction){
-                	firebase.database().ref('/transactions/' + transaction.val()).once('value').then(function(transactionSnapshot){
-                		firebase.database().ref('/locations').once('value').then(function(locations){
-                			firebase.database().ref('/clients').once('value').then(function(clients){
-                				firebase.database().ref('/payment-mode').once('value').then(function(modes){
+                
+
+            	firebase.database().ref('/transactions/').once('value').then(function(transactionSnapshot){
+            		firebase.database().ref('/locations').once('value').then(function(locations){
+            			firebase.database().ref('/clients').once('value').then(function(clients){
+            				firebase.database().ref('/payment-mode').once('value').then(function(modes){
+            					snapshot.child('transactions').forEach(function(transaction){
+
+				                	var revenue = {};
+				                	var date = transactionSnapshot.child(transaction.key + '/date').val();
+
 			                		tbl.row.add({
 
 				                        "id": child.key, 
@@ -212,11 +218,31 @@
 				                        "mode": modes.val()[child.child('mode').val()], 
 
 				                    }).draw();
-			                	});
-			                });
+
+				                    if (revenue[date] == null)
+			                			revenue[date] = 0;
+
+					                revenue[date] += transactionSnapshot.val();	 
+					            });
+
+					            var data = [];
+
+					            revenue.forEach(function(item){
+					            	data.push({"date": item.key, "revenue": item.val()});
+					            })
+
+					            new Morris.Line({
+				                    element: "chtRevenue",
+				                    data: data,
+				                    xkey: 'date',
+				                    ykeys: ['revenue'],
+				                    labels: ['Revenue'],
+				                    xLabels: 'day'
+				                });
+		                	});
 		                });
-                	});
-                });
+	                });
+            	});
             });
         });
 
