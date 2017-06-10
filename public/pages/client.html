@@ -1,0 +1,189 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Morris Charts CSS -->
+    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/4.1.1/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/4.1.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.1.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/4.1.1/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/4.1.1/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+</head>
+<body>
+
+	<div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" id="lblClientName"></h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        DataTables Advanced Tables
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default btn-xs">
+                                Export Outstanding Outsource Transactions
+                                <span class="caret"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover">
+                            <tr>
+                            	<td>名稱</td>
+                            	<td id="detailClientName"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>加入日期</td>
+                            	<td id="detailJoinDate"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>所在地</td>
+                            	<td id="detailLocation"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>現金總值</td>
+                            	<td id="detailRevenue1"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>月結總值</td>
+                            	<td id="detailRevenue2"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>到付總值</td>
+                            	<td id="detailRevenue3"></td>
+                           	</tr>
+                           	<tr>
+                            	<td>總值</td>
+                            	<td id="detailTotalRevenue"></td>
+                           	</tr>
+                        </table>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Basic Form Elements
+                    </div>
+                    <div class="panel-body">
+
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        訂單數據
+                    </div>
+                    <div class="panel-body">
+                        <div id="chtRevenue"></div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+    </div>
+    <!-- /#page-wrapper -->
+
+	<!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../vendor/raphael/raphael.min.js"></script>
+    <script src="../vendor/morrisjs/morris.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+			var id = getParameterByName('id').slice(1, -1);
+
+			firebase.database().ref('/clients/' + id).once('value').then(function(snapshot){
+
+                $("#lblClientName").innerHTML = snapshot.child('name').val();
+                $("#detailClientName").innerHTML = snapshot.child('name').val();
+                $("#detailJoinDate").innerHTML = snapshot.child('joinDate').val();
+                $("#detailLocation").innerHTML = snapshot.child('location').val();
+                $("#detailRevenue1").innerHTML = snapshot.child('revenue').val()[0];
+                $("#detailRevenue2").innerHTML = snapshot.child('revenue').val()[1];
+                $("#detailRevenue3").innerHTML = snapshot.child('revenue').val()[2];
+                $("#detailTotalRevenue").innerHTML = snapshot.child('revenue').val().reduce((a, b) => a + b, 0);
+            });
+        });
+
+        function getParameterByName(name, url) {
+		    if (!url) url = window.location.href;
+		    name = name.replace(/[\[\]]/g, "\\$&");
+		    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		        results = regex.exec(url);
+		    if (!results) return null;
+		    if (!results[2]) return '';
+		    return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		
+	</script>>
+</body>
+</html>
