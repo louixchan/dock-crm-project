@@ -232,6 +232,11 @@
                 alert("Select a valid Destination from the list please.");
                 error = true;
             } 
+            if (!error && $("#txtDate").val() > new Date())
+            {
+                alert("Select a valid Date please.");
+                error = true;
+            } 
 
             if(!error)
             {
