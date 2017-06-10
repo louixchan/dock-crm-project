@@ -284,6 +284,7 @@
                                 updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
 
                                 firebase.database().ref().update(updates);
+                                location.reload();
                             });
                         })
                     });

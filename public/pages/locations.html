@@ -275,7 +275,8 @@
                         specialExport: $("#cbxExport").val()
                     };
 
-                    firebase.database().ref('/locations/' + $("#txtId").val()).push(location);
+                    firebase.database().ref('/locations/').push(location);
+                    location.reload();
                 }
                 catch(e)
                 {

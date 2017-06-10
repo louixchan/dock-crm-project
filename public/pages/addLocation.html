@@ -192,7 +192,8 @@
                         specialExport: $("#cbxExport").val();
                     };
 
-                    firebase.database().ref('/locations/' + $("#txtId").val()).push(client);
+                    firebase.database().ref('/locations/' + $("#txtId").val()).push(location);
+                    location.reload();
                 }
                 catch(e)
                 {
