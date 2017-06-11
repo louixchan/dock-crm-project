@@ -371,6 +371,8 @@
                                 updates['/revenue/' + $("#txtDate").val()] = existingRevenue + price;
                                 updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + price;
                                 updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
+                                updates['/clients/' + $("#lstClient").val() + '/transactions/' + $("#txtId").val()] = price;
+                                updates['/locations/' + $("#lstDestination").val() + '/transactions/' + $("#txtId").val()] = price;
 
                                 firebase.database().ref().update(updates);
                                 location.reload();
