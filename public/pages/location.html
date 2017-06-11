@@ -204,7 +204,8 @@
                                 if (client.child('location').val() == id)
                                 {
                                     clientCount += 1;
-                                    transactionCount += client.child('transactions').val().length;
+                                    if (client.child('transactions').val() != null)
+                                        transactionCount += client.child('transactions').val().length;
                                 }
                             });
 
