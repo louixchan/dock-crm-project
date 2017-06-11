@@ -227,9 +227,10 @@
 
 					            var data = [];
 
-					            revenue.forEach(function(item){
-					            	data.push({"date": item.key, "revenue": item.val()});
-					            })
+					            for (var key in revenue)
+					            {
+					            	data.push({"date": key, "revenue": revenue[key]});
+					            }
 
 					            new Morris.Line({
 				                    element: "chtRevenue",
