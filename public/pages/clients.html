@@ -216,6 +216,14 @@
                 columns: [{data: "name"}, {data: "location"}, {data: "revenue-0"}, {data: "revenue-1"}, {data: "revenue-2"}, {data: "revenue"}, {data: "actions"}],
                 responsive: true
             });
+
+            var locations = firebase.database().ref('/locations');
+            locations.on('value', function(snapshot) {
+                snapshot.forEach(function(child){
+                    $("#lstLocation").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                });
+            });
+
             var clients = firebase.database().ref('/clients');
             clients.on('value', function(snapshot) {
                 firebase.database().ref('/locations').once('value').then(function(locationSnapshot){
