@@ -280,9 +280,6 @@
                 });
             });
 
-            $("#txtDate").setAttribute("value", new Date());
-            $("#txtDate").setAttribute("max", new Date());
-
             var tbl = $('#tblTransactions').DataTable({
                 columns: [{data: "id"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: 'outsource'}, {data: "actions"}],
                 responsive: true
