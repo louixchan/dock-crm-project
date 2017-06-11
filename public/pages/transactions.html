@@ -112,10 +112,20 @@
                         <div class="panel-heading">
                             DataTables Advanced Tables
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default btn-xs">
-                                    Export Outstanding Outsource Transactions
-                                    <span class="caret"></span>
-                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        更多
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">本週訂單</a>
+                                        </li>
+                                        <li><a href="#">本月訂單</a>
+                                        </li>
+                                        <li><a href="#">本季訂單</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <!-- /.panel-heading -->
@@ -247,6 +257,32 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var locationRef = firebase.database().ref('/locations');
+
+            var clients = firebase.database().ref('/clients');
+            clients.on('value', function(snapshot) {
+                snapshot.forEach(function(child){
+                    $("#lstClient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                    $("#lstRecipient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                });
+            });
+
+            var destinations = firebase.database().ref('/locations');
+            destinations.on('value', function(snapshot) {
+                snapshot.forEach(function(child){
+                    $("#lstDestination").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                });
+            });
+
+            var payments = firebase.database().ref('/payment-mode');
+            payments.on('value', function(snapshot) {
+                snapshot.forEach(function(child){
+                    $("#lstPayment").append("<option value='" + child.key + "'>" + child.val() + "</option>");
+                });
+            });
+
+            $("#txtDate").setAttribute("value", new Date());
+            $("#txtDate").setAttribute("max", new Date());
+
             var tbl = $('#tblTransactions').DataTable({
                 columns: [{data: "id"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: 'outsource'}, {data: "actions"}],
                 responsive: true
