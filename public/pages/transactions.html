@@ -279,16 +279,17 @@
                 });
             });
 
-            var tbl = $('#tblTransactions').DataTable({
-                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: "actions"}],
-                responsive: true
-            });
-
             var transactions = firebase.database().ref('/transactions');
             transactions.on('value', function(snapshot) {
                 firebase.database().ref('/locations').once('value').then(function(locations){
                     firebase.database().ref('/clients').once('value').then(function(clients){
                         firebase.database().ref('/payment-mode').once('value').then(function(modes){
+                            
+                            var tbl = $('#tblTransactions').DataTable({
+                                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: "actions"}],
+                                responsive: true
+                            });
+
                             snapshot.forEach(function(child){
                                 tbl.row.add({
 
