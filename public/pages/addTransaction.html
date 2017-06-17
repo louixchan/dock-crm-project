@@ -259,7 +259,7 @@
                             payment: $("#lstPayment").val()
                         };
 
-                        firebase.database().ref('/location/' + $("#lstDestination").val()).once('value').then(function(snapshot){
+                        firebase.database().ref('/locations/' + $("#lstDestination").val()).once('value').then(function(snapshot){
                             var locationRevenue = snapshot.child('revenue').val();
                             if (snapshot.child('outsource').val() == true)
                             {
