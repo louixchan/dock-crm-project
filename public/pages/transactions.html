@@ -160,47 +160,46 @@
                                 <div class="col-lg-12">
                                     <form role="form">
                                         <div class="form-group">
-                                            <label>ID</label>
+                                            <label>訂單編號</label>
                                             <input type="number" class="form-control" id="txtId">
                                             <p class="help-block">Enter transaction id here.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Date</label>
+                                            <label>日期</label>
                                             <input type="date" class="form-control" id="txtDate">
                                             <p class="help-block">Select the date of transaction.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Select Client</label>
+                                            <label>寄件客戶</label>
                                             <select class="form-control" id="lstClient">
                                                 <option value="-1"></option>
                                             </select>
-                                            <label>Select Recipient</label>
+                                            <label>收件客戶</label>
                                             <select class="form-control" id="lstRecipient">
                                                 <option value="-1"></option>
                                             </select>
-                                            <p class="help-block">Click <a href="#">here</a> to add new client.</p>
+                                            <p class="help-block">Click <a href="addClient.html">here</a> to add new client.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Select Destination</label>
+                                            <label>目的地</label>
                                             <select class="form-control" id="lstDestination">
                                                 <option value="-1"></option>
                                             </select>
-                                            <p class="help-block">Click <a href="#">here</a> to add new destination.</p>
+                                            <p class="help-block">Click <a href="addLocation.html">here</a> to add new destination.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Price</label>
+                                            <label>價格</label>
                                             <input type="number" class="form-control" id="txtPrice">
                                             <p class="help-block">Enter price here.</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Select Payment Mode</label>
+                                            <label>支付模式</label>
                                             <select class="form-control" id="lstPayment">
                                                 <option value="-1"></option>
                                             </select>
-                                            <p class="help-block">Click <a href="#">here</a> to add new destination.</p>
                                         </div>
-                                        <button type='button' class="btn btn-default" id="btnSubmit">Submit Button</button>
-                                        <button type="reset" class="btn btn-default">Reset Button</button>
+                                        <button type='button' class="btn btn-default" id="btnSubmit">提交</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
                                     </form>
                                 </div>
                             </div>
@@ -299,7 +298,7 @@
                                     "price": child.child('price').val(), 
                                     "destination": locations.child(child.child('destination').val()).child('name').val(), 
                                     "mode": modes.val()[child.child('mode').val()], 
-                                    "actions": "<a href='editTransaction.html?id=" + child.key + "'>Edit Transaction</a>"
+                                    "actions": "<a href='editTransaction.html?id=" + child.key + "'>修改</a>  <a href='#'>移除</a>"
 
                                 }).draw();
                             });

@@ -157,8 +157,8 @@
                                         <option value="-1"></option>
                                     </select>
                                 </div>
-                                <button type='button' class="btn btn-default" id="btnSubmit">提高</button>
-                                <button type="reset" class="btn btn-default">重設</button>
+                                <button type='button' class="btn btn-default" id="btnSubmit">提交</button>
+                                <button type="reset" class="btn btn-default">重置</button>
                             </form>
                         </div>
                         <!-- /.panel-body -->
@@ -241,7 +241,7 @@
                                 "revenue-1": child.child('revenue').val()[1],
                                 "revenue-2": child.child('revenue').val()[2],
                                 "revenue": child.child('revenue').val().reduce((a, b) => a + b, 0),
-                                "actions": "<a href='editClient?id=" + child.key + "'>Edit Client</a>"
+                                "actions": "<a href='editClient?id=" + child.key + "'>修改</a>  <a href='#'>移除</a>"
 
                                 }).draw();
 
