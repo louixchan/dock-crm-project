@@ -138,7 +138,6 @@
                                         <th>寄件客戶</th>
                                         <th>收件客戶</th>
                                         <th>目的地</th>
-                                        <th>轉運</th>
                                         <th>支付模式</th>
                                         <th>價格</th>
                                         <th></th>
@@ -281,7 +280,7 @@
             });
 
             var tbl = $('#tblTransactions').DataTable({
-                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: 'outsource'}, {data: "actions"}],
+                columns: [{data: "id"}, {data: "date"}, {data: "client"}, {data: "recipient"}, {data: "destination"}, {data: "mode"}, {data: "price"}, {data: "actions"}],
                 responsive: true
             });
 
@@ -300,7 +299,6 @@
                                     "price": child.child('price').val(), 
                                     "destination": locations.child(child.child('destination').val()).child('name').val(), 
                                     "mode": modes.val()[child.child('mode').val()], 
-                                    "outsource": child.child('outsource').val(),
                                     "actions": "<a href='editTransaction.html?id=" + child.key + "'>Edit Transaction</a>"
 
                                 }).draw();
@@ -402,8 +400,8 @@
                                 clientRevenue[parseInt($("#lstPayment").val())] += price;
 
                                 updates['/transactions/' + $("#txtId").val()] = transaction;
-                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue + price;
-                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue + price;
+                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue;
+                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue;
                                 updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
                                 updates['/clients/' + $("#lstClient").val() + '/transactions/' + $("#txtId").val()] = price;
                                 updates['/locations/' + $("#lstDestination").val() + '/transactions/' + $("#txtId").val()] = price;
