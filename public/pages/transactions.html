@@ -369,7 +369,7 @@
 
                         if (revenuesnapshot.child($("#txtDate").val()).val() != null)
                         {
-                            existingRevenue = revenuesnapshot.val();
+                            existingRevenue = revenuesnapshot.child($("#txtDate").val()).val();
                         }
 
                         var updates = {};
@@ -396,13 +396,30 @@
                                 var price = parseFloat($("#txtPrice").val());
 
                                 existingRevenue[parseInt($("#lstPayment").val())] += price;
+
+                                var existingRev = {};
+                                existingRev['0'] = existingRevenue[0];
+                                existingRev['1'] = existingRevenue[1];
+                                existingRev['2'] = existingRevenue[2];
+
                                 locationRevenue[parseInt($("#lstPayment").val())] += price;
+
+                                var locationRev = {};
+                                locationRev['0'] = locationRevenue[0];
+                                locationRev['1'] = locationRevenue[1];
+                                locationRev['2'] = locationRevenue[2];
+
                                 clientRevenue[parseInt($("#lstPayment").val())] += price;
 
+                                var clientRev = {};
+                                clientRev['0'] = clientRevenue[0];
+                                clientRev['1'] = clientRevenue[1];
+                                clientRev['2'] = clientRevenue[2];
+
                                 updates['/transactions/' + $("#txtId").val()] = transaction;
-                                updates['/revenue/' + $("#txtDate").val()] = existingRevenue;
-                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRevenue;
-                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRevenue + price;
+                                updates['/revenue/' + $("#txtDate").val()] = existingRev;
+                                updates['/locations/' + $("#lstDestination").val() + '/revenue'] = locationRev;
+                                updates['/clients/' + $("#lstClient").val() + '/revenue'] = clientRev;
                                 updates['/clients/' + $("#lstClient").val() + '/transactions/' + $("#txtId").val()] = price;
                                 updates['/locations/' + $("#lstDestination").val() + '/transactions/' + $("#txtId").val()] = price;
 
