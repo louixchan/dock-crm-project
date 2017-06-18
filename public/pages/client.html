@@ -122,6 +122,8 @@
                                         </li>
                                         <li><a onclick="enableEdit()">修改客戶資料</a>
                                         </li>
+                                        <li><a href="#">Delete Client</a>
+                                        </li>
                                     </ul>
                                 </div>
 	                        </div>
@@ -137,17 +139,20 @@
 	                           	<tr>
 	                            	<td>加入日期</td>
 	                            	<td id="detailJoinDate" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editJoinDate" class="tdEdit" style="display: none; width: 70%;"></td>
+	                            	<td id="editJoinDate" class="tdEdit" style="display: none; width: 70%;"><input class="form-control" type="date" id="txtJoinDate"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>所在地</td>
 	                            	<td id="detailLocation" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editLocation" class="tdEdit" style="display: none; width: 70%;"></td>
+	                            	<td id="editLocation" class="tdEdit" style="display: none; width: 70%;">
+	                            		<select class="form-control" id="lstLocation">
+                                            <option value="-1"></option>
+                                        </select>
+                                    </td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>訂單總數</td>
 	                            	<td id="detailTransactionCount" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editTransactionCount" class="tdEdit" style="display: none; width: 70%;"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>現金總值</td>
@@ -264,6 +269,11 @@
 			firebase.database().ref('/clients/' + id).once('value').then(function(snapshot){
             	firebase.database().ref('/transactions/').once('value').then(function(transactionSnapshot){
             		firebase.database().ref('/locations').once('value').then(function(locations){
+
+            			locations.forEach(function(child){
+		                    $("#lstLocations").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+		                });
+
             			firebase.database().ref('/clients').once('value').then(function(clients){
             				firebase.database().ref('/payment-mode').once('value').then(function(modes){
             					var revenue = {};
