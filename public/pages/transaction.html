@@ -224,6 +224,10 @@
             });
 
 			firebase.database().ref('/clients/').once('value').then(function(clients){
+
+				$("#editClient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+                $("#editRecipient").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+
             	firebase.database().ref('/transactions/' + id).once('value').then(function(transaction){
             		firebase.database().ref('/locations').once('value').then(function(locations){
 
