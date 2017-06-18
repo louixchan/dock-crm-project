@@ -336,18 +336,13 @@
 					            {
 					            	while(sorted[i] > formatDate(date))
 					            	{
-					            		data.push({"date": date, "revenue": 0});
+					            		data.push({"date": formatDate(date), "revenue": 0});
 					            		date.setDate(date.getDate() + 1);
 					            	}
 
 					            	data.push({"date": sorted[i], "revenue": revenue[sorted[i]]});
 					            	date = new Date(sorted[i]);
 					            	date.setDate(date.getDate() + 1);
-					            }
-
-					            for (var key in revenue)
-					            {
-					            	data.push({"date": key, "revenue": revenue[key]});
 					            }
 
 					            new Morris.Line({
