@@ -346,8 +346,8 @@
 			document.getElementById("btnCancelEdit").style.display="block";
 			document.getElementById("btnResetEdit").style.display="block";
 
-			document.getElementsByClassName("tdOriginal").style.display="none";
-			document.getElementsByClassName("tdEdit").style.display="block";
+			setVisibility("tdEdit", "block");
+			setVisibility("tdOriginal", "none");
 		}
 
 		$("#btnSubmitEdit").click(function(){
@@ -355,8 +355,8 @@
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
 
-			document.getElementsByClassName("tdOriginal").style.display="block";
-			document.getElementsByClassName("tdEdit").style.display="none";
+			setVisibility("tdEdit", "none");
+			setVisibility("tdOriginal", "block");
 		})
 
 		$("#btnCancelEdit").click(function(){
@@ -364,9 +364,16 @@
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
 
-			document.getElementsByClassName("tdOriginal").style.display="block";
-			document.getElementsByClassName("tdEdit").style.display="none";
+			setVisibility("tdEdit", "none");
+			setVisibility("tdOriginal", "block");
 		})
+
+		function setVisibility(className, visibility) {
+			var items = document.getElementsByClassName(className);
+			items.forEach(function(item){
+				item.style.display=visibility;
+			}); 
+		}
 		
 	</script>>
 </body>
