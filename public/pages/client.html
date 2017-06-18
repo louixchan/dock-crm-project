@@ -322,29 +322,30 @@
 					                revenue[date] += transaction.val();	 
 					            });
 
+					            var sorted = [];
+								for(var key in revenue) {
+								    sorted[sorted.length] = key;
+								}
+								sorted.sort();
+
 					            var data = [];
+
+					            var date = new Date(sorted[0]);
+
+					            for (var i = 0; i < sorted.length; i++)
+					            {
+					            	while(sorted[i] > date)
+					            	{
+					            		data.push({"date": date, "revenue": 0});
+					            		date.setDate(date.getDate() + 1);
+					            	}
+
+					            	data.push({"date": sorted[i], "revenue": revenue[sorted[i]]});
+					            }
 
 					            for (var key in revenue)
 					            {
 					            	data.push({"date": key, "revenue": revenue[key]});
-					            }
-
-					            var date = new Date();
-					            var previousDate;
-
-					            for (var i = 1; i < data.length; i++)
-					            {
-					            	previousDate = new Date(data[i - 1]["date"]);
-					            	date.setDate(previousDate.getDate() + 1);
-					            	console.log(date);
-					            	while (data[i]["date"] > date)
-					            	{
-				            			data.splice(i, 0, {"date" : date, "revenue" : 0});
-				            			i++;
-				            			previousDate = new Date(data[i - 1]["date"]);
-				            			date.setDate(previousDate.getDate() + 1);
-				            			console.log("added at " + i);
-					            	}
 					            }
 
 					            new Morris.Line({
