@@ -369,8 +369,7 @@
 		})
 
 		function setVisibility(className, visibility) {
-			var items = document.getElementsByClassName(className);
-			items.forEach(function(item){
+			document.getElementsByClassName(className).forEach(function(item){
 				item.style.display=visibility;
 			}); 
 		}
