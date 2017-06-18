@@ -247,60 +247,7 @@
             		firebase.database().ref('/locations').once('value').then(function(locations){
             			firebase.database().ref('/clients').once('value').then(function(clients){
             				firebase.database().ref('/payment-mode').once('value').then(function(modes){
-            					var revenue = {};
 
-            					$("#lblClientName")[0].innerHTML = clients.child(id + '/name').val();
-				                $("#detailClientName")[0].innerHTML = clients.child(id + '/name').val();
-				                $("#detailJoinDate")[0].innerHTML = clients.child(id + '/joinDate').val();
-				                $("#detailLocation")[0].innerHTML = locations.child(clients.child(id + '/location').val() + '/name').val();
-				                var transactionCount = clients.child(id + '/transactions').val();
-				                if (transactionCount == null)
-				                	transactionCount = 0;
-				                else
-				                	transactionCount = clients.child(id + '/transactions').val().length;
-				                $("#detailTransactionCount")[0].innerHTML = transactionCount;
-				                $("#detailRevenue1")[0].innerHTML = clients.child(id + '/revenue').val()[0];
-				                $("#detailRevenue2")[0].innerHTML = clients.child(id + '/revenue').val()[1];
-				                $("#detailRevenue3")[0].innerHTML = clients.child(id + '/revenue').val()[2];
-				                $("#detailTotalRevenue")[0].innerHTML = clients.child(id + '/revenue').val().reduce((a, b) => a + b, 0);
-
-				                tbl.clear();
-				                
-            					clients.child(id + '/transactions').forEach(function(transaction){
-
-				                	var date = transactionSnapshot.child(transaction.key + '/date').val();
-
-			                		tbl.row.add({
-
-				                        "id": transaction.key, 
-				                        "recipient": clients.child(transactionSnapshot.child(transaction.key + '/recipient').val() + "/name").val(), 
-				                        "price": transaction.val(), 
-				                        "destination": locations.child(transactionSnapshot.child(transaction.key + '/destination').val()).child('name').val(), 
-				                        "mode": modes.val()[transactionSnapshot.child(transaction.key + '/mode').val()], 
-
-				                    }).draw();
-
-				                    if (revenue[date] == null)
-			                			revenue[date] = 0;
-
-					                revenue[date] += transaction.val();	 
-					            });
-
-					            var data = [];
-
-					            for (var key in revenue)
-					            {
-					            	data.push({"date": key, "revenue": revenue[key]});
-					            }
-
-					            new Morris.Line({
-				                    element: "chtRevenue",
-				                    data: data,
-				                    xkey: 'date',
-				                    ykeys: ['revenue'],
-				                    labels: ['Revenue'],
-				                    xLabels: 'day'
-				                });
 		                	});
 		                });
 	                });
