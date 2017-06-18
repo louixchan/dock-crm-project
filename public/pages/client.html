@@ -330,17 +330,20 @@
 					            }
 
 					            var date = new Date();
+					            var previousDate;
 
 					            for (var i = 1; i < data.length; i++)
 					            {
-					            	date.setDate(data[i - 1]["date"].getDate() + 1);
+					            	previousDate = new Date(data[i - 1]["date"]);
+					            	date.setDate(previousDate.getDate() + 1);
 					            	while (data[i]["date"] > date)
 					            	{
 					            		if (revenue[date] == null)
 					            		{
 					            			data.splice(i, 0, {"date" : date, "revenue" : 0});
 					            			i++;
-					            			date.setDate(data[i - 1]["date"].getDate() + 1);
+					            			previousDate = new Date(data[i - 1]["date"]);
+					            			date.setDate(previousDate.getDate() + 1);
 					            		}
 					            	}
 					            }
