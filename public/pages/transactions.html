@@ -288,6 +288,9 @@
                 firebase.database().ref('/locations').once('value').then(function(locations){
                     firebase.database().ref('/clients').once('value').then(function(clients){
                         firebase.database().ref('/payment-mode').once('value').then(function(modes){
+
+                            tbl.clear()
+                            
                             snapshot.forEach(function(child){
                                 tbl.row.add({
 
