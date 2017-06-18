@@ -98,7 +98,7 @@
 
 	        <div class="row">
 	            <div class="col-lg-12">
-	                <h1 class="page-header" id="lblClientName"></h1>
+	                <h1 class="page-header" id="lblId"></h1>
 	            </div>
 	            <!-- /.col-lg-12 -->
 	        </div>
@@ -131,6 +131,13 @@
 	                    <!-- /.panel-heading -->
 	                    <div class="panel-body">
 	                        <table width="100%" class="table table-striped table-bordered table-hover">
+	                        	<tr>
+	                            	<td style="width: 30%;">加入日期</td>
+	                            	<td style="width: 70%;">
+	                            		<div id="detailId" class="tdOriginal"></div>
+	                            		<input class="tdEdit form-control" type="date" id="editId" style="display: none;">
+	                            	</td>
+	                           	</tr>
 	                        	<tr>
 	                            	<td style="width: 30%;">加入日期</td>
 	                            	<td style="width: 70%;">
@@ -279,10 +286,12 @@
         				firebase.database().ref('/payment-mode').once('value').then(function(modes){
         					var revenue = {};
 
+        					$("#lblId")[0].innerHTML = transaction.key;
+        					$("#detailId")[0].innerHTML = transaction.key;
         					$("#detailDate")[0].innerHTML = transaction.child('date').val();
 			                $("#detailClient")[0].innerHTML = clients.child(transaction.child('client').val() + '/name').val();
 			                $("#detailRecipient")[0].innerHTML = clients.child(transaction.child('recipient').val() + '/name').val();
-			                $("#detailLocation")[0].innerHTML = locations.child(transaction.child('location').val() + '/name').val();
+			                $("#detailLocation")[0].innerHTML = locations.child(transaction.child('destination').val() + '/name').val();
 			                $("#editLocation")[0].setAttribute("originalValue", transaction.child('location').val());
 			                $("#detailPrice")[0].innerHTML = transaction.child('price').val();
 			                $("#editPrice").val(parseFloat($("#detailPrice")[0].innerHTML));
