@@ -341,7 +341,8 @@
 					            	}
 
 					            	data.push({"date": sorted[i], "revenue": revenue[sorted[i]]});
-					            	date.setDate(Date(sorted[i]).getDate() + 1);
+					            	date = new Date(sorted[i]);
+					            	date.setDate(date.getDate() + 1);
 					            }
 
 					            for (var key in revenue)
