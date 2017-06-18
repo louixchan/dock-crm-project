@@ -133,26 +133,30 @@
 	                        <table width="100%" class="table table-striped table-bordered table-hover">
 	                            <tr>
 	                            	<td style="width: 30%;">名稱</td>
-	                            	<td id="detailClientName" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editClientName" class="tdEdit" style="display: none; width: 70%;"><input class="form-control" id="txtName"></td>
+	                            	<td style="width: 70%;">
+	                            		<p id="detailClientName" class="tdOriginal"></p>
+	                            		<input id="editClientName" style="display: none;" class="tdEdit form-control">
+	                            	</td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">加入日期</td>
-	                            	<td id="detailJoinDate" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editJoinDate" class="tdEdit" style="display: none; width: 70%;"><input class="form-control" type="date" id="txtJoinDate"></td>
+	                            	<td style="width: 70%;">
+	                            		<p id="detailJoinDate" class="tdOriginal"></p>
+	                            		<input class="tdEdit form-control" type="date" id="editJoinDate" style="display: none;">
+	                            	</td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">所在地</td>
-	                            	<td id="detailLocation" class="tdOriginal" style="width: 70%;"></td>
-	                            	<td id="editLocation" class="tdEdit" style="display: none; width: 70%;">
-	                            		<select class="form-control" id="lstLocation">
+                                    <td style="width: 70%;">
+	                            		<p id="detailLocation" class="tdOriginal"></p>
+	                            		<select class="tdEdit form-control" id="editLocation" style="display: none;">
                                             <option value="-1"></option>
                                         </select>
-                                    </td>
+	                            	</td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">訂單總數</td>
-	                            	<td id="detailTransactionCount" class="tdOriginal" style="width: 70%;"></td>
+	                            	<td id="detailTransactionCount" style="width: 70%;"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">現金總值</td>
@@ -271,7 +275,7 @@
             		firebase.database().ref('/locations').once('value').then(function(locations){
 
             			locations.forEach(function(child){
-		                    $("#lstLocations").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+		                    $("#editLocation").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
 		                });
 
             			firebase.database().ref('/clients').once('value').then(function(clients){
@@ -284,7 +288,6 @@
 				                $("#detailJoinDate")[0].innerHTML = clients.child(id + '/joinDate').val();
 				                $("#editJoinDate").value = $("#editJoinDate")[0].innerHTML;
 				                $("#detailLocation")[0].innerHTML = locations.child(clients.child(id + '/location').val() + '/name').val();
-				                $("#editLocation").value = $("#editLocation")[0].innerHTML;
 
 				                var transactionCount = clients.child(id + '/transactions').val();
 				                if (typeof transactionCount == 'undefined')
