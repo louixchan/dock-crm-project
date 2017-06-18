@@ -287,7 +287,7 @@
 				                $("#detailJoinDate")[0].innerHTML = clients.child(id + '/joinDate').val();
 				                $("#editJoinDate").val($("#detailJoinDate")[0].innerHTML);
 				                $("#detailLocation")[0].innerHTML = locations.child(clients.child(id + '/location').val() + '/name').val();
-				                $("#editLocation")[0].setAttribute("originalValue", $("#detailLocation")[0].innerHTML);
+				                $("#editLocation")[0].setAttribute("originalValue", locations.child(clients.child(id + '/location').val() + '/name').key);
 
 				                var transactionCount = clients.child(id + '/transactions').val();
 				                if (typeof transactionCount == 'undefined')
@@ -432,10 +432,16 @@
 
             $("#editClientName").val($("#detailClientName")[0].innerHTML);	
             $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
-            $("#editLocation")[0].setAttribute("originalValue", $("#detailLocation")[0].innerHTML);
+            $("#editLocation")[0].val($("#editLocation").getAttribute("originalValue"));
 
 			setVisibility("tdEdit", "none");
 			setVisibility("tdOriginal", "block");
+		})
+
+		$("#btnResetEdit").click(function(){
+			$("#editClientName").val($("#detailClientName")[0].innerHTML);	
+            $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
+            $("#editLocation")[0].val($("#editLocation").getAttribute("originalValue"));
 		})
 
 		function setVisibility(className, visibility) {
