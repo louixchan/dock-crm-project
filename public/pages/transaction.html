@@ -236,9 +236,13 @@
 
         					$("#lblId")[0].innerHTML = transaction.key;
         					$("#detailId")[0].innerHTML = transaction.key;
+        					$("#editIdt").val(transaction.key);
         					$("#detailDate")[0].innerHTML = transaction.child('date').val();
+        					$("#editDate").val($("#detailDate")[0].innerHTML);
 			                $("#detailClient")[0].innerHTML = clients.child(transaction.child('client').val() + '/name').val();
+			                $("#editClient")[0].setAttribute("originalValue", transaction.child('client').val());
 			                $("#detailRecipient")[0].innerHTML = clients.child(transaction.child('recipient').val() + '/name').val();
+			                $("#editRecipient")[0].setAttribute("originalValue", transaction.child('recipient').val());
 			                $("#detailLocation")[0].innerHTML = locations.child(transaction.child('destination').val() + '/name').val();
 			                $("#editLocation")[0].setAttribute("originalValue", transaction.child('location').val());
 			                $("#detailPrice")[0].innerHTML = transaction.child('price').val();
@@ -313,19 +317,24 @@
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
 
-
-            $("#editClientName").val($("#detailClientName")[0].innerHTML);	
-            $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
-            $("#editLocation")[0].val($("#editLocation").getAttribute("originalValue"));
+			$("#editId").val($("#detailId")[0].innerHTML);
+			$("#editDate").val($("#detailDate")[0].innerHTML);
+			$("#editPrice").val(parseFloat($("#detailPrice")[0].innerHTML));
+            $("#editClient").val($("#editClient").getAttribute("originalValue"));	
+            $("#editRecipient").val($("#editRecipient").getAttribute("originalValue"));
+            $("#editLocation").val($("#editLocation").getAttribute("originalValue"));
 
 			setVisibility("tdEdit", "none");
 			setVisibility("tdOriginal", "block");
 		})
 
 		$("#btnResetEdit").click(function(){
-			$("#editClientName").val($("#detailClientName")[0].innerHTML);	
-            $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
-            $("#editLocation")[0].val($("#editLocation").getAttribute("originalValue"));
+			$("#editId").val($("#detailId")[0].innerHTML);
+			$("#editDate").val($("#detailDate")[0].innerHTML);
+			$("#editPrice").val(parseFloat($("#detailPrice")[0].innerHTML));
+            $("#editClient").val($("#editClient").getAttribute("originalValue"));	
+            $("#editRecipient").val($("#editRecipient").getAttribute("originalValue"));
+            $("#editLocation").val($("#editLocation").getAttribute("originalValue"));
 		})
 
 		function setVisibility(className, visibility) {
