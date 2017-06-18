@@ -134,21 +134,21 @@
 	                            <tr>
 	                            	<td style="width: 30%;">名稱</td>
 	                            	<td style="width: 70%;">
-	                            		<p id="detailClientName" class="tdOriginal"></p>
+	                            		<div id="detailClientName" class="tdOriginal"></div>
 	                            		<input id="editClientName" style="display: none;" class="tdEdit form-control">
 	                            	</td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">加入日期</td>
 	                            	<td style="width: 70%;">
-	                            		<p id="detailJoinDate" class="tdOriginal"></p>
+	                            		<div id="detailJoinDate" class="tdOriginal"></div>
 	                            		<input class="tdEdit form-control" type="date" id="editJoinDate" style="display: none;">
 	                            	</td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td style="width: 30%;">所在地</td>
                                     <td style="width: 70%;">
-	                            		<p id="detailLocation" class="tdOriginal"></p>
+	                            		<div id="detailLocation" class="tdOriginal"></div>
 	                            		<select class="tdEdit form-control" id="editLocation" style="display: none;">
                                             <option value="-1"></option>
                                         </select>
@@ -284,10 +284,11 @@
 
             					$("#lblClientName")[0].innerHTML = clients.child(id + '/name').val();
 				                $("#detailClientName")[0].innerHTML = clients.child(id + '/name').val();
-				                $("#editClientName").value = $("#detailClientName")[0].innerHTML;
+				                $("#editClientName").val(("#detailClientName")[0].innerHTML);
 				                $("#detailJoinDate")[0].innerHTML = clients.child(id + '/joinDate').val();
-				                $("#editJoinDate").value = $("#editJoinDate")[0].innerHTML;
+				                $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
 				                $("#detailLocation")[0].innerHTML = locations.child(clients.child(id + '/location').val() + '/name').val();
+				                $("#editLocation")[0].setAttribute("originalValue", $("#detailLocation")[0].innerHTML);
 
 				                var transactionCount = clients.child(id + '/transactions').val();
 				                if (typeof transactionCount == 'undefined')
@@ -367,6 +368,31 @@
 			document.getElementById("btnSubmitEdit").style.display="none";
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
+
+			var error = false;
+			var locationChanged = false;
+
+			if (!error && $("#editClientName").val() == "")
+            {
+                alert("Please enter a non-empty name");
+                error = true;
+            }
+            if (!error && $("#editJoinDate").val() == "")
+            {
+                alert("Select a join date for the client from the list please.");
+                error = true;
+            }
+            if (!error && $("#editLocation").val() == "-1")
+            {
+                alert("Select a valid location from the list please.");
+                error = true;
+
+                if ($("#editLocation")[0].getAttribute("originalValue") != $("#editLocation").val())
+                {
+                	locationChanged = true;
+                	console.log("location changed");
+                }
+            }
 
 			setVisibility("tdEdit", "none");
 			setVisibility("tdOriginal", "block");
