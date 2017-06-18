@@ -365,6 +365,8 @@
 		}
 
 		$("#btnSubmitEdit").click(function(){
+			var id = getParameterByName('id').slice(1, -1);
+
 			document.getElementById("btnSubmitEdit").style.display="none";
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
@@ -394,8 +396,16 @@
                 }
             }
 
-			setVisibility("tdEdit", "none");
-			setVisibility("tdOriginal", "block");
+            if (!error)
+            {
+            	var update = {};
+            	update['/clients/' + id + '/name'] = $("#editClientName").val();
+            	update['/clients/' + id + '/joinDate'] = $("#editJoinDate").val();
+				update['/clients/' + id + '/location'] = $("#editLocation").val();
+
+				firebase.database().ref().update(updates);
+                location.reload();
+            }
 		})
 
 		$("#btnCancelEdit").click(function(){
