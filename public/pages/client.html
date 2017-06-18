@@ -131,23 +131,23 @@
 	                        <table width="100%" class="table table-striped table-bordered table-hover">
 	                            <tr>
 	                            	<td>名稱</td>
-	                            	<td id="detailClientName"></td>
-	                            	<td id="editClientName" style="display: none"><input class="form-control" id="txtName"></td>
+	                            	<td id="detailClientName" class="tdOriginal"></td>
+	                            	<td id="editClientName" class="tdEdit" style="display: none"><input class="form-control" id="txtName"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>加入日期</td>
-	                            	<td id="detailJoinDate"></td>
-	                            	<td id="editJoinDate" style="display: none"></td>
+	                            	<td id="detailJoinDate" class="tdOriginal"></td>
+	                            	<td id="editJoinDate" class="tdEdit" style="display: none"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>所在地</td>
-	                            	<td id="detailLocation"></td>
-	                            	<td id="editLocation" style="display: none"></td>
+	                            	<td id="detailLocation" class="tdOriginal"></td>
+	                            	<td id="editLocation" class="tdEdit" style="display: none"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>訂單總數</td>
-	                            	<td id="detailTransactionCount"></td>
-	                            	<td id="editTransactionCount" style="display: none"></td>
+	                            	<td id="detailTransactionCount" class="tdOriginal"></td>
+	                            	<td id="editTransactionCount" class="tdEdit" style="display: none"></td>
 	                           	</tr>
 	                           	<tr>
 	                            	<td>現金總值</td>
@@ -277,7 +277,7 @@
 				                $("#editLocation").value = $("#editLocation")[0].innerHTML;
 
 				                var transactionCount = clients.child(id + '/transactions').val();
-				                if (typeof transactionCount != 'undefined')
+				                if (typeof transactionCount == 'undefined')
 				                	transactionCount = 0;
 				                else
 				                	transactionCount = clients.child(id + '/transactions').val().length;
@@ -345,18 +345,27 @@
 			document.getElementById("btnSubmitEdit").style.display="block";
 			document.getElementById("btnCancelEdit").style.display="block";
 			document.getElementById("btnResetEdit").style.display="block";
+
+			document.getElementsByClassName("tdOriginal").style.display="none";
+			document.getElementsByClassName("tdEdit").style.display="block";
 		}
 
 		$("#btnSubmitEdit").click(function(){
 			document.getElementById("btnSubmitEdit").style.display="none";
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
+
+			document.getElementsByClassName("tdOriginal").style.display="block";
+			document.getElementsByClassName("tdEdit").style.display="none";
 		})
 
 		$("#btnCancelEdit").click(function(){
 			document.getElementById("btnSubmitEdit").style.display="none";
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
+
+			document.getElementsByClassName("tdOriginal").style.display="block";
+			document.getElementsByClassName("tdEdit").style.display="none";
 		})
 		
 	</script>>
