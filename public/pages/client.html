@@ -336,13 +336,14 @@
 					            {
 					            	previousDate = new Date(data[i - 1]["date"]);
 					            	date.setDate(previousDate.getDate() + 1);
+					            	console.log(date);
 					            	while (data[i]["date"] > date)
 					            	{
 				            			data.splice(i, 0, {"date" : date, "revenue" : 0});
-				            			console.log(date);
 				            			i++;
 				            			previousDate = new Date(data[i - 1]["date"]);
 				            			date.setDate(previousDate.getDate() + 1);
+				            			console.log("added at " + i);
 					            	}
 					            }
 
