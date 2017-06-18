@@ -284,9 +284,8 @@
 
             					$("#lblClientName")[0].innerHTML = clients.child(id + '/name').val();
 				                $("#detailClientName")[0].innerHTML = clients.child(id + '/name').val();
-				                $("#editClientName").val(("#detailClientName")[0].innerHTML);
 				                $("#detailJoinDate")[0].innerHTML = clients.child(id + '/joinDate').val();
-				                $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
+				                $("#editJoinDate").val($("#detailJoinDate")[0].innerHTML);
 				                $("#detailLocation")[0].innerHTML = locations.child(clients.child(id + '/location').val() + '/name').val();
 				                $("#editLocation")[0].setAttribute("originalValue", $("#detailLocation")[0].innerHTML);
 
@@ -330,13 +329,30 @@
 					            	data.push({"date": key, "revenue": revenue[key]});
 					            }
 
+					            var date;
+
+					            for (var i = 1; i < data.length; i++)
+					            {
+					            	date.setDate(data[i - 1]["date"].getDate() + 1);
+					            	while (data[i]["date"] > date)
+					            	{
+					            		if (revenue[date] == null)
+					            		{
+					            			data.splice(i, 0, {"date" : date, "revenue" : 0});
+					            			i++;
+					            			date.setDate(data[i - 1]["date"].getDate() + 1);
+					            		}
+					            	}
+					            }
+
 					            new Morris.Line({
 				                    element: "chtRevenue",
 				                    data: data,
 				                    xkey: 'date',
 				                    ykeys: ['revenue'],
 				                    labels: ['Revenue'],
-				                    xLabels: 'day'
+				                    xLabels: 'day',
+				                    smooth: false
 				                });
 		                	});
 		                });
@@ -412,6 +428,11 @@
 			document.getElementById("btnSubmitEdit").style.display="none";
 			document.getElementById("btnCancelEdit").style.display="none";
 			document.getElementById("btnResetEdit").style.display="none";
+
+
+            $("#editClientName").val($("#detailClientName")[0].innerHTML);	
+            $("#editJoinDate").val($("#editJoinDate")[0].innerHTML);
+            $("#editLocation")[0].setAttribute("originalValue", $("#detailLocation")[0].innerHTML);
 
 			setVisibility("tdEdit", "none");
 			setVisibility("tdOriginal", "block");
