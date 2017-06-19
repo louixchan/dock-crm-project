@@ -142,7 +142,7 @@
 	                            	<td style="width: 30%;">日期</td>
 	                            	<td style="width: 70%;">
 	                            		<div id="detailDate" class="tdOriginal"></div>
-	                            		<input class="tdEdit form-control" type="date" id="editDate" style="display: none;">
+	                            		<input class="tdEdit form-control" type="number" id="editDate" style="display: none;">
 	                            	</td>
 	                           	</tr>
 	                            <tr>
@@ -168,6 +168,15 @@
                                     <td style="width: 70%;">
 	                            		<div id="detailLocation" class="tdOriginal"></div>
 	                            		<select class="tdEdit form-control" id="editLocation" style="display: none;">
+                                            <option value="-1"></option>
+                                        </select>
+	                            	</td>
+	                           	</tr>
+	                           	<tr>
+	                            	<td style="width: 30%;">付款模式</td>
+                                    <td style="width: 70%;">
+	                            		<div id="detailMode" class="tdOriginal"></div>
+	                            		<select class="tdEdit form-control" id="editMode" style="display: none;">
                                             <option value="-1"></option>
                                         </select>
 	                            	</td>
@@ -237,11 +246,14 @@
 		                });
 
         				firebase.database().ref('/payment-mode').once('value').then(function(modes){
-        					var revenue = {};
+
+        					modes.forEach(function(child){
+			                    $("#editMode").append("<option value='" + child.key + "'>" + child.child('name').val() + "</option>");
+			                });
 
         					$("#lblId")[0].innerHTML = transaction.key;
         					$("#detailId")[0].innerHTML = transaction.key;
-        					$("#editIdt").val(transaction.key);
+        					$("#editId").val(transaction.key);
         					$("#detailDate")[0].innerHTML = transaction.child('date').val();
         					$("#editDate").val($("#detailDate")[0].innerHTML);
 			                $("#detailClient")[0].innerHTML = clients.child(transaction.child('client').val() + '/name').val();
@@ -250,6 +262,8 @@
 			                $("#editRecipient")[0].setAttribute("originalValue", transaction.child('recipient').val());
 			                $("#detailLocation")[0].innerHTML = locations.child(transaction.child('destination').val() + '/name').val();
 			                $("#editLocation")[0].setAttribute("originalValue", transaction.child('location').val());
+			                $("#detailMode")[0].innerHTML = modes.child(transaction.child('mode').val()).val();
+			                $("#editMode")[0].setAttribute("originalValue", modes.child(transaction.child('mode').val()).key);
 			                $("#detailPrice")[0].innerHTML = transaction.child('price').val();
 			                $("#editPrice").val(parseFloat($("#detailPrice")[0].innerHTML));
 	                	});
@@ -287,12 +301,22 @@
 			var error = false;
 			var locationChanged = false;
 
-			if (!error && $("#editClientName").val() == "")
+			if (!error && $("#editId").val() == "-1")
+            {
+                alert("Please enter a non-empty Id");
+                error = true;
+            }
+			if (!error && $("#editClient").val() == "-1")
             {
                 alert("Please enter a non-empty name");
                 error = true;
             }
-            if (!error && $("#editJoinDate").val() == "")
+            if (!error && $("#editPrice").val() < 0.01)
+            {
+                alert("Please enter a valid price");
+                error = true;
+            }
+            if (!error && $("#editRecipient").val() == "-1")
             {
                 alert("Select a join date for the client from the list please.");
                 error = true;
@@ -301,19 +325,76 @@
             {
                 alert("Select a valid location from the list please.");
                 error = true;
-
-                if ($("#editLocation")[0].getAttribute("originalValue") != $("#editLocation").val())
-                {
-                	locationChanged = true;
-                }
+            }
+            else if ($("#editLocation")[0].getAttribute("originalValue") != $("#editLocation").val())
+            {
+            	locationChanged = true;
             }
 
             if (!error)
             {
-            	var update = {};
+            	firebase.database().ref('/transactions/' + $("#editId").val()).once('value', function(newTransaction){
+            		if (newTransaction.val() == null)
+            		{
+            			alert("Exist transaction");
+            		}
+            		else
+            		{
+            			var originalId = $("detailId")[0].innerHTML;
+						var originalPrice = parseFloat($("detailPrice")[0].innerHTML);
+						var originalDestination = $("editLocation").getAttribute("originalValue");
+						var originalMode = $("detailMode")[0].innerHTML;
+						var originalClient = $("detailClient")[0].innerHTML;
+						var originalRecipient = $("#detailRecipient")[0].innerHTML;
+						var originalDate = $("detailDate")[0].innerHTML;
+						
+						var originalTransactionRef = firebase.database().ref('/transactions/' + originalId);
+						var originalRevenueRef = firebase.database().ref('/revenue/' + originalDate + '/' + originalMode);
+						var originalClientRef = firebase.database().ref('/clients/' + orginalClient);
+						var originalLocationRef = firebase.database().ref('/locations/' + originalLocation);
 
-				firebase.database().ref().update(updates);
-                location.reload();
+						originalTransactionRef.remove();
+						originalRevenueRef.transaction(function(revenue){
+							revenue -= originalPrice;
+						})
+						originalClientRef.child('revenue').transaction(function(revenue){
+							revenue -= originalPrice;
+						})
+						originalClientRef.child('transactions/' + originalId).remove();
+						originalLocationRef.child('revenue').transaction(function(revenue){
+							revenue -= originalPrice;
+						})
+						originalLocationRef.child('transactions/' + originalId).remove();
+
+						var newTransactionRef = firebase.database().ref('/transactions/' + $("#editId").val());
+						var newRevenueRef = firebase.database().ref('/revenue/' + $("#editDate").val() + '/' + $("#editMode").val());
+						var newClientRef = firebase.database().ref('/clients/' + $("#editClient").val());
+						var newLocationRef = firebase.database().ref('/locations/' + $("#editLocation").val());
+
+						newTransactionRef.remove();
+						newRevenueRef.transaction(function(revenue){
+							revenue += $("#editPrice").val();
+						})
+						newClientRef.child('revenue').transaction(function(revenue){
+							revenue += $("#editPrice").val();
+						})
+						newClientRef.child('transactions/' + $("#editId").val()).set($("#editPrice").val());
+						newLocationRef.child('revenue').transaction(function(revenue){
+							revenue += $("#editPrice").val();
+						})
+						newLocationRef.child('transactions/' + $("#editId").val()).set($("#editPrice").val());
+
+						var update = {};
+		            	update['/transactions/' + id + '/client'] = $("#editClient").val();
+		            	update['/transactions/' + id + '/recipient'] = $("#editRecipient").val();
+		            	update['/transactions/' + id + '/price'] = $("#editPrice").val();
+		            	update['/transactions/' + id + '/date'] = $("#editDate").val();
+						update['/transactions/' + id + '/destination'] = $("#editLocation").val();
+
+						firebase.database().ref().update(updates);
+		                location.reload();
+            		}
+            	})
             }
 		})
 
